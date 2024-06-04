@@ -49,12 +49,12 @@ const routes = [
     },
     {
         path : '/khach-hang/quen-mat-khau',
-        component: ()=>import('../components/KhachHang/QuenMatKhau/index.vue'),
+        component: ()=>import('../components/DaiLy/QuenMatKhau/index.vue'),
         meta: {layout: 'blank'}
     },
     {
         path : '/khach-hang/lay-lai-mat-khau',
-        component: ()=>import('../components/KhachHang/LayLaiMatKhau/index.vue'),
+        component: ()=>import('../components/DaiLy/LayLaiMatKhau/index.vue'),
         meta: {layout: 'blank'}
     },
 ]
