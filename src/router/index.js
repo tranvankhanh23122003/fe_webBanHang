@@ -18,6 +18,15 @@ const routes = [
         component: ()=>import('../components/DaiLy/index.vue')
     },
     {
+        path : '/admin/nhan-vien',
+        component: ()=>import('../components/NhanVien/index.vue')
+    },
+    {
+        path : '/admin/dang-nhap',
+        component: ()=>import('../components/NhanVien/DangNhap/index.vue'),
+        meta: {layout: 'blank'}
+    },
+    {
         path : '/dai-ly/dang-ky',
         component: ()=>import('../components/DaiLy/DangKy/index.vue'),
         meta: {layout: 'blank'}
