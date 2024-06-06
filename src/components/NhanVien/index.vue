@@ -3,7 +3,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h6><b>DANH SÁCH ĐẠI LÝ</b></h6>
+                    <h6><b>DANH SÁCH NHÂN VIÊN</b></h6>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         Thêm Mới
                     </button>
@@ -16,35 +16,30 @@
                                 <th class="text-center">Họ Và Tên</th>
                                 <th class="text-center">Email</th>
                                 <th class="text-center">Số Điện Thoại</th>
-                                <th class="text-center">Ngày Sinh</th>
-                                <th class="text-center">Tên Doanh Nghiệp</th>
-                                <th class="text-center">Mã Số Thuế</th>
-                                <th class="text-center">Địa Chỉ Kinh Doanh</th>
+                                <th class="text-center">Địa Chỉ</th>
+                                <th class="text-center">Quyền</th>
                                 <th class="text-center">Tình Trạng</th>
                                 <th class="text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <template v-for="(value, index) in list_dai_ly" :key="index">
+                            <template v-for="(value, index) in list_nhan_vien" :key="index">
                                 <tr>
                                     <th class="align-middle text-center">{{ index + 1 }}</th>
                                     <td class="align-middle">{{ value.ho_va_ten }}</td>
                                     <td class="align-middle">{{ value.email }}</td>
                                     <td class="align-middle">{{ value.so_dien_thoai }}</td>
-                                    <td class="align-middle text-center">{{ value.ngay_sinh }}</td>
-                                    <td class="align-middle">{{ value.ten_doanh_nghiep }}</td>
-                                    <td class="align-middle">{{ value.ma_so_thue }}</td>
-                                    <td class="align-middle">{{ value.dia_chi_kinh_doanh }}</td>
+                                    <td class="align-middle text-center">{{ value.dia_chi }}</td>
+                                    <td class="align-middle">{{ value.id_quyen }}</td>
                                     <td class="align-middle text-center">
-                                        <button v-if="value.is_active == 1" class="btn btn-success w-100">Đã Kích
-                                            Hoạt</button>
-                                        <button v-else class="btn btn-danger w-100">Chưa Kích Hoạt</button>
+                                        <button v-if="value.tinh_trang == 1" class="btn btn-success w-100">Hoạt Động</button>
+                                        <button v-else class="btn btn-danger w-100">Dừng Hoạt Động</button>
                                     </td>
                                     <td class="align-middle text-center">
-                                        <button v-on:click="Object.assign(edit_dai_ly, value)"
+                                        <button v-on:click="Object.assign(edit_nhan_vien, value)"
                                             class="btn btn-primary me-2" data-bs-toggle="modal"
                                             data-bs-target="#capnhatDM">Cập nhật</button>
-                                        <button v-on:click="del_dai_ly = value" class="btn btn-danger"
+                                        <button v-on:click="del_nhan_vien = value" class="btn btn-danger"
                                             data-bs-toggle="modal" data-bs-target="#delModal">Xóa</button>
                                     </td>
                                 </tr>
@@ -59,42 +54,44 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">Thêm Mới Đại Lý</h1>
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Thêm Mới Nhân Viên</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="mb-2">
                             <label>Họ Và Tên</label>
-                            <input v-model="create_dai_ly.ho_va_ten" type="text" class="form-control mt-2">
+                            <input v-model="create_nhan_vien.ho_va_ten" type="text" class="form-control mt-2">
                         </div>
                         <div class="mb-2">
                             <label>Email</label>
-                            <input v-on:blur="checkMail()" v-model="create_dai_ly.email" type="email"
+                            <input v-on:blur="checkMail()" v-model="create_nhan_vien.email" type="email"
                                 class="form-control mt-2">
                         </div>
                         <div class="mb-2">
-                            <label>Số Điện Thoại</label>
-                            <input v-model="create_dai_ly.so_dien_thoai" type="tel" class="form-control mt-2">
-                        </div>
-                        <div class="mb-2">
-                            <label>Ngày Sinh</label>
-                            <input v-model="create_dai_ly.ngay_sinh" type="date" class="form-control mt-2">
-                        </div>
-                        <div class="mb-2">
                             <label>Password</label>
-                            <input v-model="create_dai_ly.password" type="text" class="form-control mt-2">
+                            <input v-model="create_nhan_vien.password" type="text" class="form-control mt-2">
                         </div>
                         <div class="mb-2">
-                            <label>Tên Doanh Nghiệp</label>
-                            <input v-model="create_dai_ly.ten_doanh_nghiep" type="text" class="form-control mt-2">
+                            <label>Số Điện Thoại</label>
+                            <input v-model="create_nhan_vien.so_dien_thoai" type="tel" class="form-control mt-2">
                         </div>
                         <div class="mb-2">
-                            <label>Mã Số Thuế</label>
-                            <input v-model="create_dai_ly.ma_so_thue" type="text" class="form-control mt-2">
+                            <label>Địa Chỉ</label>
+                            <input v-model="create_nhan_vien.dia_chi" type="text" class="form-control mt-2">
                         </div>
                         <div class="mb-2">
-                            <label>Địa Chỉ Kinh Doanh</label>
-                            <input v-model="create_dai_ly.dia_chi_kinh_doanh" type="text" class="form-control mt-2">
+                            <label>Quyền</label>
+                            <select v-model="create_nhan_vien.id_quyen"  class="form-control mt-2">
+                                <option value="0">Admin</option>
+                                <option value="1">Nhân Viên</option>
+                            </select>
+                        </div>
+                        <div class="mb-2">
+                            <label>Tình trạng</label>
+                            <select v-model="create_nhan_vien.tinh_trang"  class="form-control mt-2">
+                                <option value="1">Hoạt Động</option>
+                                <option value="0">Dừng Hoạt Động</option>
+                            </select>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -108,18 +105,18 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">Xóa Đại Lý</h1>
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Xóa Nhân Viên</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="alert alert-danger" role="alert">
-                            Bạn có chắc muốn xóa đại lý <b class="text-danger">{{ del_dai_ly.ho_va_ten }}</b> này
+                            Bạn có chắc muốn xóa Nhân Viên <b class="text-danger">{{ del_nhan_vien.ho_va_ten }}</b> này
                             không?
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button v-on:click="xoaDaiLy()" type="button" class="btn btn-primary"
+                        <button v-on:click="xoaNhanVien()" type="button" class="btn btn-primary"
                             data-bs-dismiss="modal">Xác
                             nhận</button>
                     </div>
@@ -130,42 +127,45 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">Cập nhật Đại Lý</h1>
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Cập nhật Nhân Viên</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="mb-2">
                             <label>Họ Và Tên</label>
-                            <input v-model="edit_dai_ly.ho_va_ten" type="text" class="form-control mt-2">
+                            <input v-model="edit_nhan_vien.ho_va_ten" type="text" class="form-control mt-2">
                         </div>
                         <div class="mb-2">
                             <label>Email</label>
-                            <input v-model="edit_dai_ly.email" type="email" class="form-control mt-2">
+                            <input v-on:blur="checkMail()" v-model="edit_nhan_vien.email" type="email"
+                                class="form-control mt-2">
                         </div>
                         <div class="mb-2">
                             <label>Số Điện Thoại</label>
-                            <input v-model="edit_dai_ly.so_dien_thoai" type="tel" class="form-control mt-2">
+                            <input v-model="edit_nhan_vien.so_dien_thoai" type="tel" class="form-control mt-2">
                         </div>
                         <div class="mb-2">
-                            <label>Ngày Sinh</label>
-                            <input v-model="edit_dai_ly.ngay_sinh" type="date" class="form-control mt-2">
+                            <label>Địa Chỉ</label>
+                            <input v-model="edit_nhan_vien.dia_chi" type="text" class="form-control mt-2">
                         </div>
                         <div class="mb-2">
-                            <label>Tên Doanh Nghiệp</label>
-                            <input v-model="edit_dai_ly.ten_doanh_nghiep" type="text" class="form-control mt-2">
+                            <label>Quyền</label>
+                            <select v-model="edit_nhan_vien.id_quyen"  class="form-control mt-2">
+                                <option value="0">Admin</option>
+                                <option value="1">Nhân Viên</option>
+                            </select>
                         </div>
                         <div class="mb-2">
-                            <label>Mã Số Thuế</label>
-                            <input v-model="edit_dai_ly.ma_so_thue" type="text" class="form-control mt-2">
-                        </div>
-                        <div class="mb-2">
-                            <label>Địa Chỉ Kinh Doanh</label>
-                            <input v-model="edit_dai_ly.dia_chi_kinh_doanh" type="text" class="form-control mt-2">
+                            <label>Tình trạng</label>
+                            <select v-model="edit_nhan_vien.tinh_trang"  class="form-control mt-2">
+                                <option value="1">Hoạt Động</option>
+                                <option value="0">Dừng Hoạt Động</option>
+                            </select>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button v-on:click="capnhatDaiLy()" type="button" class="btn btn-primary"
+                        <button v-on:click="capnhatNhanVien()" type="button" class="btn btn-primary"
                             data-bs-dismiss="modal">Cập
                             nhật</button>
                     </div>
@@ -180,60 +180,60 @@ import axios from 'axios';
 export default {
     data() {
         return {
-            list_dai_ly: [],
-            create_dai_ly: {},
-            del_dai_ly: {},
+            list_nhan_vien: [],
+            create_nhan_vien: {},
+            del_nhan_vien: {},
             is_them_moi: 0,
-            edit_dai_ly: {},
+            edit_nhan_vien: {},
         }
     },
     mounted() {
-        this.layDataDaiLy();
+        this.layDataNhanVien();
     },
     methods: {
         checkMail() {
             axios
-                .post("http://127.0.0.1:8000/api/admin/dai-ly/check-mail", this.create_dai_ly)
+                .post("http://127.0.0.1:8000/api/admin/nhan-vien/check-mail", this.create_nhan_vien)
                 .then((res) => {
                     this.is_them_moi = res.data.status;
                     alert(res.data.message);
                 })
         },
-        layDataDaiLy() {
+        layDataNhanVien() {
             axios
-                .get("http://127.0.0.1:8000/api/admin/dai-ly/data")
+                .get("http://127.0.0.1:8000/api/admin/nhan-vien/data")
                 .then((res) => {
-                    this.list_dai_ly = res.data.data;
+                    this.list_nhan_vien = res.data.data;
                 })
         },
         themMoiDaiLy() {
             axios
-                .post("http://127.0.0.1:8000/api/admin/dai-ly/create", this.create_dai_ly)
+                .post("http://127.0.0.1:8000/api/admin/nhan-vien/create", this.create_nhan_vien)
                 .then((res) => {
                     if (res.data.status) {
                         alert(res.data.message);
-                        this.create_dai_ly = {},
-                        this.layDataDaiLy();
+                        this.create_nhan_vien = {},
+                        this.layDataNhanVien();
                     }
                 })
         },
-        capnhatDaiLy() {
+        capnhatNhanVien() {
             axios
-                .post("http://127.0.0.1:8000/api/admin/dai-ly/update", this.edit_dai_ly)
+                .post("http://127.0.0.1:8000/api/admin/nhan-vien/update", this.edit_nhan_vien)
                 .then((res) => {
                     if (res.data.status) {
                         alert(res.data.message);
-                        this.layDataDaiLy();
+                        this.layDataNhanVien();
                     }
                 })
         },
-        xoaDaiLy() {
+        xoaNhanVien() {
             axios
-                .post("http://127.0.0.1:8000/api/admin/dai-ly/delete", this.del_dai_ly)
+                .post("http://127.0.0.1:8000/api/admin/nhan-vien/delete", this.del_nhan_vien)
                 .then((res) => {
                     if (res.data.status) {
                         alert(res.data.message);
-                        this.layDataDaiLy();
+                        this.layDataNhanVien();
                     }
                 })
         },

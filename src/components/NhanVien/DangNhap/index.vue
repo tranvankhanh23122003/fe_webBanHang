@@ -10,7 +10,7 @@
                         <div class="card-body">
                             <div class="border p-4 rounded">
                                 <div class="text-center">
-                                    <h3 class="">ĐĂNG NHẬP ĐẠI LÝ</h3>
+                                    <h3 class="">ĐĂNG NHẬP NHÂN VIÊN</h3>
                                 </div>
                                 <div class="login-separater text-center mb-4">
                                     <hr />
@@ -40,12 +40,6 @@
                                                         class="fa-solid fa-lock-open"></i>Đăng Nhập</button>
                                             </div>
                                         </div>
-                                        <div class="col-12">
-                                            <router-link to="/dai-ly/dang-ky">
-                                                <button type="button" class="btn btn-danger w-100"><i
-                                                        class='bx bx-user'></i>Đăng Ký</button>
-                                            </router-link>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -67,12 +61,12 @@ export default {
     methods: {
         xacNhanLogin() {
             axios
-                .post("http://127.0.0.1:8000/api/dai-ly/dang-nhap", this.tai_khoan)
+                .post("http://127.0.0.1:8000/api/nhan-vien/dang-nhap", this.tai_khoan)
                 .then((res) => {
                     if(res.data.status) {
                         alert(res.data.message);
                         // Lưu lại ở trình duyệt
-                        localStorage.setItem('token_dai_ly', res.data.token);
+                        localStorage.setItem('token_nhan_vien', res.data.token);
                     } else {
                         alert(res.data.message);
                     }
