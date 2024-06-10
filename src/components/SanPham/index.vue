@@ -1,5 +1,4 @@
 <template>
-   
       <div class="modal fade" id="themSP" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
          <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -193,22 +192,28 @@
                         <template v-for="(value, index) in list_san_pham" :key="index">
                            <tr>
                               <th class="align-middle">{{ index + 1 }}</th>
-                              <th class="align-middle">
-                                 <img v-bind:src="value.hinh_anh" class="img-fluid" alt="">
+                              <th class="align-middle text-center">
+                                 <img style="max-height: 200px;" v-bind:src="value.hinh_anh" class="img-fluid" alt="">
                               </th>
-                              <td class="align-middle">{{ value.ten_san_pham }}</td>
-                              <td class="align-middle">{{ value.slug_san_pham }}</td>
+                              <td class="align-middle text-wrap">{{ value.ten_san_pham }}</td>
+                              <td class="align-middle text-wrap">{{ value.slug_san_pham }}</td>
                               <td class="align-middle">{{ value.so_luong }}</td>
                               <td class="align-middle text-end">{{ value.gia_ban }}</td>
                               <td class="align-middle text-end">{{ value.gia_khuyen_mai }}</td>
-                              <td class="align-middle">{{ value.mo_ta_ngan }}</td>
+                              <td class="align-middle text-wrap">{{ value.mo_ta_ngan }}</td>
                               <td class="align-middle text-center">
                                  <i v-on:click="mo_ta_chi_tiet_sp = value.mo_ta_chi_tiet" class="fa-solid fa-newspaper fa-2xl" data-bs-toggle="modal"
                                     data-bs-target="#moTaChiTiet"></i>
                               </td>
-                              <td class="align-middle">
-                                 <button v-if="value.tinh_trang == 1" class="btn btn-success">Còn hàng</button>
-                                 <button v-else class="btn btn-danger">Hết hàng</button>
+                              <td class="align-middle text-wrap">
+                                 <button v-on:click="chuyenBan(value)" v-if="value.tinh_trang == 1" class="btn btn-success text-nowrap mb-2">Đang Bán</button>
+                                 <button v-on:click="chuyenBan(value)" v-else class="btn btn-danger text-nowrap mb-2">Dừng Bán</button>
+
+                                 <button v-on:click="chuyenNoiBat(value)" v-if="value.is_noi_bat == 1" class="btn btn-primary text-nowrap mb-2">SP Nổi Bật</button>
+                                 <button v-on:click="chuyenNoiBat(value)" v-else class="btn btn-danger text-nowrap mb-2">Bình Thường</button>
+
+                                 <button v-on:click="chuyenFlashSale(value)" v-if="value.is_flash_sale == 1" class="btn btn-info text-nowrap mb-2">SP Flash</button>
+                                 <button v-on:click="chuyenFlashSale(value)" v-else class="btn btn-warning text-nowrap mb-2">Bình Thường</button>
                               </td>
                               <td class="align-middle">
                                  <button v-on:click="Object.assign(edit_san_pham, value)" class="btn btn-primary me-2"
@@ -265,6 +270,30 @@ export default {
       this.layDataSanPham();
    },
    methods: {
+      chuyenBan(payload) {
+         axios
+            .post("http://127.0.0.1:8000/api/admin/san-pham/chuyen-trang-thai-ban", payload)
+            .then((res) => {
+               alert(res.data.message);
+               this.layDataSanPham();
+            })
+      },
+      chuyenNoiBat(payload) {
+         axios
+            .post("http://127.0.0.1:8000/api/admin/san-pham/chuyen-noi-bat", payload)
+            .then((res) => {
+               alert(res.data.message);
+               this.layDataSanPham();
+            })
+      },
+      chuyenFlashSale(payload) {
+         axios
+            .post("http://127.0.0.1:8000/api/admin/san-pham/chuyen-flash-sale", payload)
+            .then((res) => {
+               alert(res.data.message);
+               this.layDataSanPham();
+            })
+      },
       checkSlug() {
          axios
             .post("http://127.0.0.1:8000/api/admin/san-pham/checkSlug", this.create_san_pham)

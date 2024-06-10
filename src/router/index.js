@@ -3,7 +3,8 @@ import { createRouter, createWebHistory } from "vue-router"; // cài vue-router:
 const routes = [
     {
         path : '/',
-        component: ()=>import('../layout/wrapper/index.vue')
+        component: ()=>import('../components/TrangChu/index.vue'),
+        meta: {layout: 'client'}
     },
     {
         path : '/admin/danh-muc',
