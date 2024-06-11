@@ -8,23 +8,23 @@ const routes = [
     },
     {
         path : '/admin/danh-muc',
-        component: ()=>import('../components/DanhMuc/index.vue')
+        component: ()=>import('../components/Admin/DanhMuc/index.vue')
     },
     {
         path : '/admin/san-pham',
-        component: ()=>import('../components/SanPham/index.vue')
+        component: ()=>import('../components/Admin/SanPham/index.vue')
     },
     {
         path : '/admin/dai-ly',
-        component: ()=>import('../components/DaiLy/index.vue')
+        component: ()=>import('../components/Admin/DaiLy/index.vue')
     },
     {
         path : '/admin/nhan-vien',
-        component: ()=>import('../components/NhanVien/index.vue')
+        component: ()=>import('../components/Admin/NhanVien/index.vue')
     },
     {
         path : '/admin/dang-nhap',
-        component: ()=>import('../components/NhanVien/DangNhap/index.vue'),
+        component: ()=>import('../components/Admin/DangNhap/index.vue'),
         meta: {layout: 'blank'}
     },
     {

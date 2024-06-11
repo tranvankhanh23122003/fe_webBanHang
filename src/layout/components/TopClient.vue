@@ -35,10 +35,15 @@
                     </ul>
                 </div>
                 <div class="user-box dropdown">
-                    <button type="button" class="btn btn-outline-dark px-5 radius-30 me-2 d-flex align-items-center"><i
-                            class="fa-regular fa-user me-2"></i>Đăng Nhập</button>
-                    <button type="button" class="btn btn-dark px-5 radius-30 d-flex align-items-center"><i
-                            class="fa-solid fa-arrow-right-to-bracket me-2"></i>Đăng Ký</button>
+                    <router-link to="/khach-hang/dang-nhap">
+                        <button type="button"
+                            class="btn btn-outline-dark px-5 radius-30 me-2 d-flex align-items-center"><i
+                                class="fa-regular fa-user me-2"></i>Đăng Nhập</button>
+                    </router-link>
+                    <router-link to="/khach-hang/dang-ky">
+                        <button type="button" class="btn btn-dark px-5 radius-30 d-flex align-items-center"><i
+                                class="fa-solid fa-arrow-right-to-bracket me-2"></i>Đăng Ký</button>
+                    </router-link>
                 </div>
             </nav>
         </div>
