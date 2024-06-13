@@ -32,8 +32,9 @@
                                     <td class="align-middle text-center">{{ value.dia_chi }}</td>
                                     <td class="align-middle">{{ value.id_quyen }}</td>
                                     <td class="align-middle text-center">
-                                        <button v-if="value.tinh_trang == 1" class="btn btn-success w-100">Hoạt Động</button>
-                                        <button v-else class="btn btn-danger w-100">Dừng Hoạt Động</button>
+                                        <button v-on:click="changeTrangThai(value)" v-if="value.tinh_trang == 1" class="btn btn-success w-100">Hoạt
+                                            Động</button>
+                                        <button v-on:click="changeTrangThai(value)" v-else class="btn btn-danger w-100">Dừng Hoạt Động</button>
                                     </td>
                                     <td class="align-middle text-center">
                                         <button v-on:click="Object.assign(edit_nhan_vien, value)"
@@ -81,14 +82,14 @@
                         </div>
                         <div class="mb-2">
                             <label>Quyền</label>
-                            <select v-model="create_nhan_vien.id_quyen"  class="form-control mt-2">
+                            <select v-model="create_nhan_vien.id_quyen" class="form-control mt-2">
                                 <option value="0">Admin</option>
                                 <option value="1">Nhân Viên</option>
                             </select>
                         </div>
                         <div class="mb-2">
                             <label>Tình trạng</label>
-                            <select v-model="create_nhan_vien.tinh_trang"  class="form-control mt-2">
+                            <select v-model="create_nhan_vien.tinh_trang" class="form-control mt-2">
                                 <option value="1">Hoạt Động</option>
                                 <option value="0">Dừng Hoạt Động</option>
                             </select>
@@ -110,7 +111,8 @@
                     </div>
                     <div class="modal-body">
                         <div class="alert alert-danger" role="alert">
-                            Bạn có chắc muốn xóa Nhân Viên <b class="text-danger">{{ del_nhan_vien.ho_va_ten }}</b> này
+                            Bạn có chắc muốn xóa Nhân Viên <b class="text-danger">{{ del_nhan_vien.ho_va_ten }}</b>
+                            này
                             không?
                         </div>
                     </div>
@@ -150,14 +152,14 @@
                         </div>
                         <div class="mb-2">
                             <label>Quyền</label>
-                            <select v-model="edit_nhan_vien.id_quyen"  class="form-control mt-2">
+                            <select v-model="edit_nhan_vien.id_quyen" class="form-control mt-2">
                                 <option value="0">Admin</option>
                                 <option value="1">Nhân Viên</option>
                             </select>
                         </div>
                         <div class="mb-2">
                             <label>Tình trạng</label>
-                            <select v-model="edit_nhan_vien.tinh_trang"  class="form-control mt-2">
+                            <select v-model="edit_nhan_vien.tinh_trang" class="form-control mt-2">
                                 <option value="1">Hoạt Động</option>
                                 <option value="0">Dừng Hoạt Động</option>
                             </select>
@@ -193,47 +195,105 @@ export default {
     methods: {
         checkMail() {
             axios
-                .post("http://127.0.0.1:8000/api/admin/nhan-vien/check-mail", this.create_nhan_vien)
+                .post("http://127.0.0.1:8000/api/admin/nhan-vien/check-mail", this.create_nhan_vien, {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem("token_nhan_vien")
+                    }
+                })
                 .then((res) => {
-                    this.is_them_moi = res.data.status;
-                    alert(res.data.message);
+                    if (res.data.status) {
+                        this.is_them_moi = res.data.status;
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.success(thong_bao);
+                    } else {
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.error(thong_bao);
+                    }
+
                 })
         },
         layDataNhanVien() {
             axios
-                .get("http://127.0.0.1:8000/api/admin/nhan-vien/data")
+                .get("http://127.0.0.1:8000/api/admin/nhan-vien/data", {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem("token_nhan_vien")
+                    }
+                })
                 .then((res) => {
                     this.list_nhan_vien = res.data.data;
                 })
         },
         themMoiDaiLy() {
             axios
-                .post("http://127.0.0.1:8000/api/admin/nhan-vien/create", this.create_nhan_vien)
+                .post("http://127.0.0.1:8000/api/admin/nhan-vien/create", this.create_nhan_vien, {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem("token_nhan_vien")
+                    }
+                })
                 .then((res) => {
                     if (res.data.status) {
-                        alert(res.data.message);
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.success(thong_bao);
                         this.create_nhan_vien = {},
-                        this.layDataNhanVien();
+                            this.layDataNhanVien();
+                    } else {
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.error(thong_bao);
                     }
                 })
         },
         capnhatNhanVien() {
             axios
-                .post("http://127.0.0.1:8000/api/admin/nhan-vien/update", this.edit_nhan_vien)
+                .post("http://127.0.0.1:8000/api/admin/nhan-vien/update", this.edit_nhan_vien, {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem("token_nhan_vien")
+                    }
+                })
                 .then((res) => {
                     if (res.data.status) {
-                        alert(res.data.message);
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.success(thong_bao);
                         this.layDataNhanVien();
+                    } else {
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.error(thong_bao);
                     }
                 })
         },
         xoaNhanVien() {
             axios
-                .post("http://127.0.0.1:8000/api/admin/nhan-vien/delete", this.del_nhan_vien)
+                .post("http://127.0.0.1:8000/api/admin/nhan-vien/delete", this.del_nhan_vien, {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem("token_nhan_vien")
+                    }
+                })
                 .then((res) => {
                     if (res.data.status) {
-                        alert(res.data.message);
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.success(thong_bao);
                         this.layDataNhanVien();
+                    } else {
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.error(thong_bao);
+                    }
+                })
+        },
+
+        changeTrangThai(value) {
+            axios
+                .post("http://127.0.0.1:8000/api/admin/nhan-vien/doi-trang-thai", value, {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem("token_nhan_vien")
+                    }
+                })
+                .then((res) => {
+                    if (res.data.status) {
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.success(thong_bao);
+                        this.layDataNhanVien();
+                    } else {
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.error(thong_bao);
                     }
                 })
         },

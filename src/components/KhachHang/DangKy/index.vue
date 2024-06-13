@@ -22,32 +22,37 @@
                             <form class="row g-3">
                                 <div class="col-sm-12">
                                     <label class="form-label">Họ Và Tên</label>
-                                    <input type="email" class="form-control" placeholder="Nhập vào họ và tên">
+                                    <input type="email" v-model="khach_hang_create.ho_va_ten" class="form-control"
+                                        placeholder="Nhập vào họ và tên">
                                 </div>
                                 <div class="col-12">
                                     <label class="form-label">Email</label>
-                                    <input type="email" class="form-control" placeholder="Nhập vào Email">
+                                    <input type="email" v-model="khach_hang_create.email" class="form-control"
+                                        placeholder="Nhập vào Email">
                                 </div>
                                 <div class="col-12">
                                     <label class="form-label">Số Điện Thoại</label>
-                                    <input type="email" class="form-control" placeholder="Nhập vào Email">
+                                    <input type="email" v-model="khach_hang_create.so_dien_thoai" class="form-control"
+                                        placeholder="Nhập vào Email">
                                 </div>
                                 <div class="col-12">
                                     <label class="form-label">Mật Khẩu</label>
                                     <div class="input-group">
-                                        <input type="password" class="form-control" placeholder="Nhập vào Mật Khẩu">
+                                        <input type="password" v-model="khach_hang_create.password" class="form-control"
+                                            placeholder="Nhập vào Mật Khẩu">
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <label class="form-label">Nhập Lại Mật Khẩu</label>
                                     <div class="input-group">
-                                        <input type="password" class="form-control" placeholder="Nhập lại Mật Khẩu">
+                                        <input type="password" v-model="khach_hang_create.re_password"
+                                            class="form-control" placeholder="Nhập lại Mật Khẩu">
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="d-grid">
-                                        <button type="button" class="btn btn-primary"><i class="bx bx-user"></i>Đăng
-                                            Ký</button>
+                                        <button type="button" v-on:click="actionDangKy()" class="btn btn-primary"><i
+                                                class="bx bx-user"></i>Đăng Kí</button>
                                     </div>
                                 </div>
                             </form>
@@ -59,8 +64,34 @@
     </div>
 </template>
 <script>
+import axios from 'axios';
 export default {
+    data() {
+        return {
+            khach_hang_create: {}
+        }
+    },
+    mounted() {
 
+    },
+    methods: {
+        actionDangKy() {
+            axios
+                .post('http://127.0.0.1:8000/api/khach-hang/dang-ky', this.khach_hang_create)
+                .then((res) => {
+                    if (res.data.status) {
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.success(thong_bao);
+                        this.khach_hang_create = {};
+                    } else {
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.error(thong_bao);
+                    }
+                });
+        },
+
+
+    },
 }
 </script>
 <style></style>

@@ -272,70 +272,137 @@ export default {
    methods: {
       chuyenBan(payload) {
          axios
-            .post("http://127.0.0.1:8000/api/admin/san-pham/chuyen-trang-thai-ban", payload)
+            .post("http://127.0.0.1:8000/api/admin/san-pham/chuyen-trang-thai-ban", payload, {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem("token_nhan_vien")
+                    }
+                })
             .then((res) => {
-               alert(res.data.message);
-               this.layDataSanPham();
+               if(res.data.status) {
+                  var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message +'<span>';
+                  this.$toast.success(thong_bao);
+                  this.layDataSanPham();
+               }
+               
             })
       },
       chuyenNoiBat(payload) {
          axios
-            .post("http://127.0.0.1:8000/api/admin/san-pham/chuyen-noi-bat", payload)
+            .post("http://127.0.0.1:8000/api/admin/san-pham/chuyen-noi-bat", payload, {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem("token_nhan_vien")
+                    }
+                })
             .then((res) => {
-               alert(res.data.message);
-               this.layDataSanPham();
-            })
+               if(res.data.status) {
+                  var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message +'<span>';
+                  this.$toast.success(thong_bao);
+                  this.layDataSanPham();
+               } else {
+                  var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message +'<span>';
+                  this.$toast.error(thong_bao);
+               }
+               
+            }) 
       },
       chuyenFlashSale(payload) {
          axios
-            .post("http://127.0.0.1:8000/api/admin/san-pham/chuyen-flash-sale", payload)
+            .post("http://127.0.0.1:8000/api/admin/san-pham/chuyen-flash-sale", payload, {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem("token_nhan_vien")
+                    }
+                })
             .then((res) => {
-               alert(res.data.message);
-               this.layDataSanPham();
+               if(res.data.status) {
+                  var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message +'<span>';
+                  this.$toast.success(thong_bao);
+                  this.layDataSanPham();
+               } else {
+                  var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message +'<span>';
+                  this.$toast.error(thong_bao);
+               }
             })
       },
       checkSlug() {
          axios
-            .post("http://127.0.0.1:8000/api/admin/san-pham/checkSlug", this.create_san_pham)
+            .post("http://127.0.0.1:8000/api/admin/san-pham/checkSlug", this.create_san_pham, {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem("token_nhan_vien")
+                    }
+                })
             .then((res) => {
-               this.is_them_moi = res.data.status;
-               alert(res.data.message);
+               if(res.data.status) {
+                  this.is_them_moi = res.data.status;
+                  var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message +'<span>';
+                  this.$toast.success(thong_bao);
+               } else {
+                  var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message +'<span>';
+                  this.$toast.error(thong_bao);
+               }
             })
       },
       layDataSanPham() {
          axios
-            .get("http://127.0.0.1:8000/api/san-pham")
+            .get("http://127.0.0.1:8000/api/san-pham", {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem("token_nhan_vien")
+                    }
+                })
             .then((res) => {
                this.list_san_pham = res.data.data;
             })
       },
       themMoiSanPham() {
          axios
-            .post("http://127.0.0.1:8000/api/admin/san-pham", this.create_san_pham)
+            .post("http://127.0.0.1:8000/api/admin/san-pham", this.create_san_pham, {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem("token_nhan_vien")
+                    }
+                })
             .then((res) => {
                if (res.data.status) {
-                  alert(res.data.message);
+                  var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message +'<span>';
+                  this.$toast.success(thong_bao);
                   this.layDataSanPham();
+               } else {
+                  var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message +'<span>';
+                  this.$toast.error(thong_bao);
                }
             })
       },
       suaSanPham() {
          axios
-            .post("http://127.0.0.1:8000/api/admin/san-pham-sua", this.edit_san_pham)
+            .post("http://127.0.0.1:8000/api/admin/san-pham-sua", this.edit_san_pham, {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem("token_nhan_vien")
+                    }
+                })
             .then((res) => {
                if (res.data.status) {
-                  alert(res.data.message);
+                  var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message +'<span>';
+                  this.$toast.success(thong_bao);
                   this.layDataSanPham();
+               } else {
+                  var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message +'<span>';
+                  this.$toast.error(thong_bao);
                }
             })
       },
       xoaSanPham() {
          axios
-            .post("http://127.0.0.1:8000/api/admin/san-pham/delete", this.del_san_pham)
+            .post("http://127.0.0.1:8000/api/admin/san-pham/delete", this.del_san_pham, {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem("token_nhan_vien")
+                    }
+                })
             .then((res) => {
                if (res.data.status) {
-                  alert(res.data.message);
+                  var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message +'<span>';
+                  this.$toast.success(thong_bao);
                   this.layDataSanPham();
+               } else {
+                  var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message +'<span>';
+                  this.$toast.error(thong_bao);
                }
             })
       },

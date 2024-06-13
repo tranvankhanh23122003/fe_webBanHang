@@ -113,8 +113,8 @@
                               <span class="fa-xl" v-html="value.icon_danh_muc"></span>
                            </td>
                            <td class="align-middle">
-                              <button v-if="value.tinh_trang == 1" class="btn btn-success">Hiển thị</button>
-                              <button v-else class="btn btn-danger">Tạm tắt</button>
+                              <button v-on:click="changeTrangThai(value)" v-if="value.tinh_trang == 1" class="btn btn-success">Hiển thị</button>
+                              <button v-on:click="changeTrangThai(value)" v-else class="btn btn-danger">Tạm tắt</button>
                            </td>
                            <td class="align-middle">
                               <i>Chưa xử lý</i>
@@ -188,46 +188,85 @@ export default {
    methods: {
       checkSlug() {
          axios
-            .post("http://127.0.0.1:8000/api/admin/danh-muc/checkSlug", this.create_danh_muc)
+            .post("http://127.0.0.1:8000/api/admin/danh-muc/checkSlug", this.create_danh_muc, {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem("token_nhan_vien")
+                    }
+                })
             .then((res) => {
-               this.is_them_moi = res.data.status;
-               alert(res.data.message);
+               if(res.data.status) {
+                  this.is_them_moi = res.data.status;
+                  var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message +'<span>';
+                  this.$toast.success(thong_bao);
+               } else {
+                  var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message +'<span>';
+                  this.$toast.error(thong_bao);
+               }
+               
             })
       },
       layDataDanhMuc() {
          axios
-            .get("http://127.0.0.1:8000/api/danh-muc")
+            .get("http://127.0.0.1:8000/api/danh-muc", {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem("token_nhan_vien")
+                    }
+                })
             .then((res) => {
                this.list_danh_muc = res.data.data;
             })
       },
       themMoiDanhMuc() {
          axios
-            .post("http://127.0.0.1:8000/api/admin/danh-muc", this.create_danh_muc)
+            .post("http://127.0.0.1:8000/api/admin/danh-muc", this.create_danh_muc, {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem("token_nhan_vien")
+                    }
+                })
             .then((res) => {
                if (res.data.status) {
-                  alert(res.data.message);
+                  var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message +'<span>';
+                  this.$toast.success(thong_bao);
                   this.layDataDanhMuc();
+               } else {
+                  var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message +'<span>';
+                  this.$toast.error(thong_bao);
                }
             })
       },
       capnhatDanhMuc() {
          axios
-            .post("http://127.0.0.1:8000/api/admin/danh-muc-update", this.edit_danh_muc)
+            .post("http://127.0.0.1:8000/api/admin/danh-muc-update", this.edit_danh_muc, {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem("token_nhan_vien")
+                    }
+                })
             .then((res) => {
                if (res.data.status) {
-                  alert(res.data.message);
+                  var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message +'<span>';
+                  this.$toast.success(thong_bao);
                   this.layDataDanhMuc();
+               } else {
+                  var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message +'<span>';
+                  this.$toast.error(thong_bao);
                }
             })
       },
       xoaDanhMuc() {
          axios
-            .post("http://127.0.0.1:8000/api/admin/danh-muc/delete", this.del_danh_muc)
+            .post("http://127.0.0.1:8000/api/admin/danh-muc/delete", this.del_danh_muc, {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem("token_nhan_vien")
+                    }
+                })
             .then((res) => {
                if (res.data.status) {
-                  alert(res.data.message);
+                  var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message +'<span>';
+                  this.$toast.success(thong_bao);
                   this.layDataDanhMuc();
+               } else {
+                  var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message +'<span>';
+                  this.$toast.error(thong_bao);
                }
             })
       },
@@ -260,6 +299,25 @@ export default {
          slug = slug.replace(/\@\-|\-\@|\@/gi, '');
          return slug;
       },
+
+      changeTrangThai(value) {
+            axios
+                .post("http://127.0.0.1:8000/api/admin/danh-muc/doi-trang-thai", value, {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem("token_nhan_vien")
+                    }
+                })
+                .then((res) => {
+                    if (res.data.status) {
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.success(thong_bao);
+                        this.layDataDanhMuc();
+                    } else {
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.error(thong_bao);
+                    }
+                })
+        },
    },
 }
 </script>

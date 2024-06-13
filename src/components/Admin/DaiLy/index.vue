@@ -36,9 +36,9 @@
                                     <td class="align-middle">{{ value.ma_so_thue }}</td>
                                     <td class="align-middle">{{ value.dia_chi_kinh_doanh }}</td>
                                     <td class="align-middle text-center">
-                                        <button v-if="value.is_active == 1" class="btn btn-success w-100">Đã Kích
+                                        <button v-on:click="changeTrangThai(value)" v-if="value.is_active == 1" class="btn btn-success w-100">Đã Kích
                                             Hoạt</button>
-                                        <button v-else class="btn btn-danger w-100">Chưa Kích Hoạt</button>
+                                        <button v-on:click="changeTrangThai(value)" v-else class="btn btn-danger w-100">Chưa Kích Hoạt</button>
                                     </td>
                                     <td class="align-middle text-center">
                                         <button v-on:click="Object.assign(edit_dai_ly, value)"
@@ -193,47 +193,103 @@ export default {
     methods: {
         checkMail() {
             axios
-                .post("http://127.0.0.1:8000/api/admin/dai-ly/check-mail", this.create_dai_ly)
+                .post("http://127.0.0.1:8000/api/admin/dai-ly/check-mail", this.create_dai_ly, {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem("token_nhan_vien")
+                    }
+                })
                 .then((res) => {
-                    this.is_them_moi = res.data.status;
-                    alert(res.data.message);
+                    if (res.data.status) {
+                        this.is_them_moi = res.data.status;
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.success(thong_bao);
+                    } else {
+                        this.$toast.error(thong_bao);
+                    }
                 })
         },
         layDataDaiLy() {
             axios
-                .get("http://127.0.0.1:8000/api/admin/dai-ly/data")
+                .get("http://127.0.0.1:8000/api/admin/dai-ly/data", {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem("token_nhan_vien")
+                    }
+                })
                 .then((res) => {
                     this.list_dai_ly = res.data.data;
                 })
         },
         themMoiDaiLy() {
             axios
-                .post("http://127.0.0.1:8000/api/admin/dai-ly/create", this.create_dai_ly)
+                .post("http://127.0.0.1:8000/api/admin/dai-ly/create", this.create_dai_ly, {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem("token_nhan_vien")
+                    }
+                })
                 .then((res) => {
                     if (res.data.status) {
-                        alert(res.data.message);
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.success(thong_bao);
                         this.create_dai_ly = {},
-                        this.layDataDaiLy();
+                            this.layDataDaiLy();
+                    } else {
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.error(thong_bao);
                     }
                 })
         },
         capnhatDaiLy() {
             axios
-                .post("http://127.0.0.1:8000/api/admin/dai-ly/update", this.edit_dai_ly)
+                .post("http://127.0.0.1:8000/api/admin/dai-ly/update", this.edit_dai_ly, {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem("token_nhan_vien")
+                    }
+                })
                 .then((res) => {
                     if (res.data.status) {
-                        alert(res.data.message);
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.success(thong_bao);
                         this.layDataDaiLy();
+                    } else {
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.error(thong_bao);
                     }
                 })
         },
         xoaDaiLy() {
             axios
-                .post("http://127.0.0.1:8000/api/admin/dai-ly/delete", this.del_dai_ly)
+                .post("http://127.0.0.1:8000/api/admin/dai-ly/delete", this.del_dai_ly, {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem("token_nhan_vien")
+                    }
+                })
                 .then((res) => {
                     if (res.data.status) {
-                        alert(res.data.message);
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.success(thong_bao);
                         this.layDataDaiLy();
+                    } else {
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.error(thong_bao);
+                    }
+                })
+        },
+
+        changeTrangThai(value) {
+            axios
+                .post("http://127.0.0.1:8000/api/admin/dai-ly/doi-trang-thai", value, {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem("token_nhan_vien")
+                    }
+                })
+                .then((res) => {
+                    if (res.data.status) {
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.success(thong_bao);
+                        this.layDataDaiLy();
+                    } else {
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.error(thong_bao);
                     }
                 })
         },

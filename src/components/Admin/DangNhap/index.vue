@@ -64,11 +64,13 @@ export default {
                 .post("http://127.0.0.1:8000/api/nhan-vien/dang-nhap", this.tai_khoan)
                 .then((res) => {
                     if(res.data.status) {
-                        alert(res.data.message);
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message +'<span>';
+                        this.$toast.success(thong_bao);
                         // Lưu lại ở trình duyệt
                         localStorage.setItem('token_nhan_vien', res.data.token);
                     } else {
-                        alert(res.data.message);
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message +'<span>';
+                        this.$toast.error(thong_bao);
                     }
                 });
         },  

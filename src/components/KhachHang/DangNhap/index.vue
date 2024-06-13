@@ -22,18 +22,20 @@
                             <form class="row g-3">
                                 <div class="col-12">
                                     <label class="form-label">Email</label>
-                                    <input type="email" class="form-control" placeholder="Nhập vào Email">
+                                    <input type="email" v-model="khach_hang.email" class="form-control"
+                                        placeholder="Nhập vào Email">
                                 </div>
                                 <div class="col-12">
                                     <label class="form-label">Mật Khẩu</label>
                                     <div class="input-group">
-                                        <input type="password" class="form-control" placeholder="Nhập vào Mật Khẩu">
+                                        <input type="password" v-model="khach_hang.password" class="form-control"
+                                            placeholder="Nhập vào Mật Khẩu">
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="d-grid">
-                                        <button type="button" class="btn btn-primary"><i class="bx bx-user"></i>Đăng
-                                            Nhập</button>
+                                        <button type="button" v-on:click="actionDangNhap()" class="btn btn-primary"><i
+                                                class="bx bx-user"></i>Đăng Nhập</button>
                                     </div>
                                 </div>
                             </form>
@@ -45,8 +47,34 @@
     </div>
 </template>
 <script>
+import axios from 'axios';
 export default {
+    data() {
+        return {
+            khach_hang: {}
+        }
+    },
+    mounted() {
 
+    },
+    methods: {
+        actionDangNhap() {
+            axios
+                .post('http://127.0.0.1:8000/api/khach-hang/dang-nhap', this.khach_hang)
+                .then((res) => {
+                    if (res.data.status) {
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.success(thong_bao);
+                        this.khach_hang = {}
+                        // Lưu lại ở trình duyệt
+                        localStorage.setItem('token_khach_hang', res.data.token);
+                    } else {
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.error(thong_bao);
+                    }
+                })
+        },
+    },
 }
 </script>
 <style></style>

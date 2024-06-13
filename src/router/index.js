@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router"; // cài vue-router: npm install vue-router@next --save
+import kiemTraAdmin from "./kiemTraAdmin";
+import kiemTraDaiLy from "./kiemTraDaiLy";
 
 const routes = [
     {
@@ -8,19 +10,28 @@ const routes = [
     },
     {
         path : '/admin/danh-muc',
-        component: ()=>import('../components/Admin/DanhMuc/index.vue')
+        component: ()=>import('../components/Admin/DanhMuc/index.vue'),
+        beforeEnter: kiemTraAdmin,
     },
     {
         path : '/admin/san-pham',
-        component: ()=>import('../components/Admin/SanPham/index.vue')
+        component: ()=>import('../components/Admin/SanPham/index.vue'),
+        beforeEnter: kiemTraAdmin,
     },
     {
         path : '/admin/dai-ly',
-        component: ()=>import('../components/Admin/DaiLy/index.vue')
+        component: ()=>import('../components/Admin/DaiLy/index.vue'),
+        beforeEnter: kiemTraAdmin,
     },
     {
         path : '/admin/nhan-vien',
-        component: ()=>import('../components/Admin/NhanVien/index.vue')
+        component: ()=>import('../components/Admin/NhanVien/index.vue'),
+        beforeEnter: kiemTraAdmin,
+    },
+    {
+        path : '/admin/khach-hang',
+        component: ()=>import('../components/Admin/KhachHang/index.vue'),
+        beforeEnter: kiemTraAdmin,
     },
     {
         path : '/admin/dang-nhap',
@@ -46,6 +57,12 @@ const routes = [
         path : '/dai-ly/lay-lai-mat-khau',
         component: ()=>import('../components/DaiLy/LayLaiMatKhau/index.vue'),
         meta: {layout: 'blank'}
+    },
+    {
+        path : '/dai-ly/san-pham',
+        component: ()=>import('../components/DaiLy/SanPham/index.vue'),
+        meta: {layout: 'daily'},
+        beforeEnter: kiemTraDaiLy,
     },
     {
         path : '/khach-hang/dang-nhap',

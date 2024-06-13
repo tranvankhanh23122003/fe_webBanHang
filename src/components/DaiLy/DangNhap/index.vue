@@ -23,7 +23,8 @@
                                                 <div class="input-group-text bg-transparent">
                                                     <i class="fa-solid fa-envelope"></i>
                                                 </div>
-                                                <input v-model="tai_khoan.email" type="email" class="form-control border-end-0">
+                                                <input v-model="tai_khoan.email" type="email"
+                                                    class="form-control border-end-0">
                                             </div>
                                         </div>
                                         <div class="col-12">
@@ -31,13 +32,15 @@
                                             <div class="input-group">
                                                 <div class="input-group-text bg-transparent"><i
                                                         class="fa-solid fa-lock"></i></div>
-                                                <input v-model="tai_khoan.password" type="password" class="form-control border-end-0">
+                                                <input v-model="tai_khoan.password" type="password"
+                                                    class="form-control border-end-0">
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="d-grid">
-                                                <button v-on:click="xacNhanLogin()" type="button" class="btn btn-primary"><i
-                                                        class="fa-solid fa-lock-open"></i>Đăng Nhập</button>
+                                                <button v-on:click="xacNhanLogin()" type="button"
+                                                    class="btn btn-primary"><i class="fa-solid fa-lock-open"></i>Đăng
+                                                    Nhập</button>
                                             </div>
                                         </div>
                                         <div class="col-12">
@@ -61,7 +64,7 @@ import axios from 'axios'
 export default {
     data() {
         return {
-            tai_khoan   :   {},
+            tai_khoan: {},
         }
     },
     methods: {
@@ -69,15 +72,17 @@ export default {
             axios
                 .post("http://127.0.0.1:8000/api/dai-ly/dang-nhap", this.tai_khoan)
                 .then((res) => {
-                    if(res.data.status) {
-                        alert(res.data.message);
+                    if (res.data.status) {
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.success(thong_bao);
                         // Lưu lại ở trình duyệt
                         localStorage.setItem('token_dai_ly', res.data.token);
                     } else {
-                        alert(res.data.message);
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.error(thong_bao);
                     }
                 });
-        },  
+        },
     },
 }
 </script>

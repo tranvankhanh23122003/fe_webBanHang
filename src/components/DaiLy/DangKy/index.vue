@@ -19,44 +19,49 @@
                                     <div class="row g-3">
                                         <div class="col-sm-6">
                                             <label class="form-label">Họ Và Tên</label>
-                                            <input type="text" class="form-control">
+                                            <input v-model="create_dai_ly.ho_va_ten" type="text" class="form-control">
                                         </div>
                                         <div class="col-sm-6">
                                             <label class="form-label">Email</label>
-                                            <input type="email" class="form-control">
+                                            <input v-model="create_dai_ly.email" type="email" class="form-control">
                                         </div>
                                         <div class="col-6">
                                             <label class="form-label">Số Điện Thoại</label>
-                                            <input type="text" class="form-control">
+                                            <input v-model="create_dai_ly.so_dien_thoai" type="text"
+                                                class="form-control">
                                         </div>
                                         <div class="col-6">
                                             <label class="form-label">Ngày Sinh</label>
-                                            <input type="date" class="form-control">
+                                            <input v-model="create_dai_ly.ngay_sinh" type="date" class="form-control">
                                         </div>
                                         <div class="col-12">
                                             <label class="form-label">Mật Khẩu</label>
-                                            <input type="password" class="form-control">
+                                            <input v-model="create_dai_ly.password" type="password"
+                                                class="form-control">
                                         </div>
                                         <div class="col-12">
                                             <label class="form-label">Nhập Lại Mật Khẩu</label>
-                                            <input type="password" class="form-control">
+                                            <input v-model="create_dai_ly.re_password" type="password"
+                                                class="form-control">
                                         </div>
                                         <div class="col-6">
                                             <label class="form-label">Tên Doanh Nghiệp</label>
-                                            <input type="text" class="form-control">
+                                            <input v-model="create_dai_ly.ten_doanh_nghiep" type="text"
+                                                class="form-control">
                                         </div>
                                         <div class="col-6">
                                             <label class="form-label">Mã Số Thuế</label>
-                                            <input type="text" class="form-control">
+                                            <input v-model="create_dai_ly.ma_so_thue" type="text" class="form-control">
                                         </div>
                                         <div class="col-12">
                                             <label>Địa chỉ kinh doanh:</label>
-                                            <textarea class="form-control"></textarea>
+                                            <textarea v-model="create_dai_ly.dia_chi_kinh_doanh"
+                                                class="form-control"></textarea>
                                         </div>
                                         <div class="col-12">
                                             <div class="d-grid">
-                                                <button type="button" class="btn btn-primary"><i
-                                                        class='bx bx-user'></i>Đăng Ký</button>
+                                                <button v-on:click="createDaiLy()" type="button"
+                                                    class="btn btn-primary"><i class='bx bx-user'></i>Đăng Ký</button>
                                             </div>
                                         </div>
                                         <div class="col-12">
@@ -72,12 +77,32 @@
                     </div>
                 </div>
             </div>
+            <!--end row-->
         </div>
     </div>
 </template>
 <script>
-export default {
 
+import axios from 'axios';
+export default {
+    data() {
+        return {
+            create_dai_ly: {},
+        }
+    },
+    methods: {
+        createDaiLy() {
+            axios
+                .post('http://127.0.0.1:8000/api/dai-ly/dang-ky', this.create_dai_ly)
+                .then((res) => {
+                    if (res.data.status) {
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message +'<span>';
+                        this.$toast.success(thong_bao);
+                        this.create_dai_ly = {};
+                    }
+                });
+        }
+    },
 }
 </script>
 <style></style>
