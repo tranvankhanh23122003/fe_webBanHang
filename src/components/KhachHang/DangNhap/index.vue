@@ -68,6 +68,7 @@ export default {
                         this.khach_hang = {}
                         // Lưu lại ở trình duyệt
                         localStorage.setItem('token_khach_hang', res.data.token);
+                        this.$router.push('/');
                     } else {
                         var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
                         this.$toast.error(thong_bao);
