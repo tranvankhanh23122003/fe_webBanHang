@@ -65,6 +65,12 @@ const routes = [
         beforeEnter: kiemTraDaiLy,
     },
     {
+        path : '/dai-ly/nhap-kho',
+        component: ()=>import('../components/DaiLy/NhapKho/index.vue'),
+        meta: {layout: 'daily'},
+        beforeEnter: kiemTraDaiLy,
+    },
+    {
         path : '/khach-hang/dang-nhap',
         component: ()=>import('../components/KhachHang/DangNhap/index.vue'),
         meta: {layout: 'blank'}
