@@ -11,12 +11,12 @@
                    <div class="col-lg-6">
                       <div class="mb-2">
                          <label>Tên Sản Phẩm</label>
-                         <input v-on:blur="checkSlug()" v-model="create_san_pham.ten_san_pham"
+                         <input v-model="create_san_pham.ten_san_pham"
                             v-on:keyup="taoSlugSP()" type="text" class="form-control mt-2">
                       </div>
                       <div class="mb-2">
                          <label>Slug Sản phẩm</label>
-                         <input v-on:blur="checkSlug()" v-model="create_san_pham.slug_san_pham" type="text"
+                         <input v-model="create_san_pham.slug_san_pham" type="text"
                             class="form-control mt-2">
                       </div>
                       <div class="mb-2">
@@ -57,8 +57,7 @@
              </div>
              <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button v-if="is_them_moi == 0" type="button" class="btn btn-danger" disabled>Thêm mới</button>
-                <button v-else v-on:click="themMoiSanPham()" type="button" class="btn btn-primary"
+                <button v-on:click="themMoiSanPham()" type="button" class="btn btn-primary"
                    data-bs-dismiss="modal">Thêm mới</button>
              </div>
           </div>
@@ -208,12 +207,6 @@
                             <td class="align-middle text-wrap">
                                <button v-on:click="chuyenBan(value)" v-if="value.tinh_trang == 1" class="btn btn-success text-nowrap mb-2">Đang Bán</button>
                                <button v-on:click="chuyenBan(value)" v-else class="btn btn-danger text-nowrap mb-2">Dừng Bán</button>
-
-                               <button v-on:click="chuyenNoiBat(value)" v-if="value.is_noi_bat == 1" class="btn btn-primary text-nowrap mb-2">SP Nổi Bật</button>
-                               <button v-on:click="chuyenNoiBat(value)" v-else class="btn btn-danger text-nowrap mb-2">Bình Thường</button>
-
-                               <button v-on:click="chuyenFlashSale(value)" v-if="value.is_flash_sale == 1" class="btn btn-info text-nowrap mb-2">SP Flash</button>
-                               <button v-on:click="chuyenFlashSale(value)" v-else class="btn btn-warning text-nowrap mb-2">Bình Thường</button>
                             </td>
                             <td class="align-middle">
                                <button v-on:click="Object.assign(edit_san_pham, value)" class="btn btn-primary me-2"
@@ -263,7 +256,6 @@ export default {
           "gia_khuyen_mai": "",
        },
        mo_ta_chi_tiet_sp: '',
-       is_them_moi: 0,
     }
  },
  mounted() {
@@ -284,61 +276,6 @@ export default {
                 this.layDataSanPham();
              }
              
-          })
-    },
-    chuyenNoiBat(payload) {
-       axios
-          .post("http://127.0.0.1:8000/api/dai-ly/san-pham/chuyen-noi-bat", payload, {
-                  headers: {
-                      Authorization: 'Bearer ' + localStorage.getItem("token_dai_ly")
-                  }
-              })
-          .then((res) => {
-             if(res.data.status) {
-                var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message +'<span>';
-                this.$toast.success(thong_bao);
-                this.layDataSanPham();
-             } else {
-                var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message +'<span>';
-                this.$toast.error(thong_bao);
-             }
-             
-          }) 
-    },
-    chuyenFlashSale(payload) {
-       axios
-          .post("http://127.0.0.1:8000/api/dai-ly/san-pham/chuyen-flash-sale", payload, {
-                  headers: {
-                      Authorization: 'Bearer ' + localStorage.getItem("token_dai_ly")
-                  }
-              })
-          .then((res) => {
-             if(res.data.status) {
-                var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message +'<span>';
-                this.$toast.success(thong_bao);
-                this.layDataSanPham();
-             } else {
-                var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message +'<span>';
-                this.$toast.error(thong_bao);
-             }
-          })
-    },
-    checkSlug() {
-       axios
-          .post("http://127.0.0.1:8000/api/dai-ly/san-pham/checkSlug", this.create_san_pham, {
-                  headers: {
-                      Authorization: 'Bearer ' + localStorage.getItem("token_dai_ly")
-                  }
-              })
-          .then((res) => {
-             if(res.data.status) {
-                this.is_them_moi = res.data.status;
-                var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message +'<span>';
-                this.$toast.success(thong_bao);
-             } else {
-                var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message +'<span>';
-                this.$toast.error(thong_bao);
-             }
           })
     },
     layDataSanPham() {

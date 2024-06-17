@@ -21,6 +21,15 @@
 						</a>
 					</router-link>
 				</li>
+				<li class="nav-item">
+					<router-link to="/dai-ly/nhap-kho">
+						<a class="nav-link" href="/dai-ly/nhap-kho">
+							<div class="parent-icon"><i class="fa-solid fa-store"></i>
+							</div>
+							<div class="menu-title">Nhập Kho</div>
+						</a>
+					</router-link>
+				</li>
 			</ul>
 		</nav>
 	</div>
