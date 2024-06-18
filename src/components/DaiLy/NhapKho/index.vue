@@ -12,7 +12,7 @@
                                 <th colspan="3">
                                     <div class="input-group mt-3 w-100">
                                         <input type="text"
-                                            class="form-control search-control border border-1 border-secondary"
+                                            class="form-control search-control border border-1 border-secondary" v-model="search" v-on:change="searchByName()"
                                             placeholder="Search...">
                                         <span class="position-absolute top-50 search-show translate-middle-y"
                                             style="left: 15px;"><i class="bx bx-search"></i></span>
@@ -65,16 +65,16 @@
                                     <th class="align-middle">{{ index + 1 }}</th>
                                     <td class="align-middle text-wrap">{{ value.ten_san_pham }}</td>
                                     <td class="align-middle ">
-                                        <input v-model="value.so_luong" type="number" class="form-control text-center"
+                                        <input v-model="value.so_luong" type="number" class="form-control text-center" v-on:blur="updateNhapKho(value)"
                                             style="width: 100px;">
                                     </td>
                                     <td class="align-middle text-center">
-                                        <input v-model="value.don_gia" type="number" class="form-control text-center"
+                                        <input v-model="value.don_gia" type="number" class="form-control text-center" v-on:blur="updateNhapKho(value)"
                                             style="width: 100px;">
                                     </td>
                                     <td class="align-middle text-center">{{ value.thanh_tien }}</td>
                                     <td class="align-middle">
-                                        <button v-on:click="xoaSanPham(value)" class="btn btn-danger">Xóa</button>
+                                        <button v-on:click="xoaNhapKho(value)" class="btn btn-danger">Xóa</button>
                                     </td>
                                 </tr>
                             </template>
@@ -100,6 +100,7 @@ export default {
         return {
             list_san_pham: [],
             list_nhap_kho: [],
+            search       : "",
         }
     },
     mounted() {
@@ -147,9 +148,9 @@ export default {
                     this.list_nhap_kho = res.data.data;
                 })
         },
-        xoaSanPham(san_pham) {
+        xoaNhapKho(nhap_kho) {
             axios
-                .post("http://127.0.0.1:8000/api/dai-ly/nhap-kho/delete", san_pham, {
+                .post("http://127.0.0.1:8000/api/dai-ly/nhap-kho/delete", nhap_kho, {
                     headers: {
                         Authorization: 'Bearer ' + localStorage.getItem("token_dai_ly")
                     }
@@ -165,6 +166,28 @@ export default {
                     }
                 })
         },
+        updateNhapKho(nhap_kho) {
+            axios
+                .post("http://127.0.0.1:8000/api/dai-ly/nhap-kho/update", nhap_kho, {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem("token_dai_ly")
+                    }
+                })
+                .then((res) => {
+                    if (res.data.status) {
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.success(thong_bao);
+                        this.loadDataNhapKho();
+                    } else {
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.error(thong_bao);
+                    }
+                })
+        },
+        searchByName() {
+            const regex = new RegExp(this.search, 'i');
+            this.list_san_pham = this.list_san_pham.filter(san_pham => regex.test(san_pham.ten_san_pham));
+        }
     }
 }
 </script>
