@@ -90,6 +90,11 @@ const routes = [
         component: ()=>import('../components/KhachHang/LayLaiMatKhau/index.vue'),
         meta: {layout: 'blank'}
     },
+    {
+        path : '/khach-hang/profile',
+        component: ()=>import('../components/KhachHang/Profile/index.vue'),
+        meta: {layout: 'client'}
+    },
 ]
 
 const router = createRouter({
