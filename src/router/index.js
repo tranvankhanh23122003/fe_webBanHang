@@ -10,7 +10,7 @@ const routes = [
         meta: {layout: 'client'}
     },
     {
-        path : '/chi-tiet-san-pham',
+        path : '/chi-tiet-san-pham-2',
         component: ()=>import('../components/TrangChu/chiTietSanPham.vue'),
         meta: {layout: 'client'}
     },
@@ -117,6 +117,18 @@ const routes = [
         component: ()=>import('../components/KhachHang/Profile/index.vue'),
         meta: {layout: 'client'},
         beforeEnter: kiemTraKhachHang,
+    },
+    {
+        path : '/chi-tiet-san-pham/:id_san_pham-:slug_san_pham',
+        component: ()=>import('../components/TrangChu/ChiTietSanPham/index.vue'),
+        meta: {layout: 'client'},
+        props: true
+    },
+    {
+        path : '/danh-muc-san-pham/:id_danh_muc-:slug_danh_muc',
+        component: ()=>import('../components/TrangChu/DanhMucSanPham/index.vue'),
+        meta: {layout: 'client'},
+        props: true
     },
 ]
 

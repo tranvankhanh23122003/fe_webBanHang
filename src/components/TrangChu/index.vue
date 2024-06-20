@@ -97,7 +97,13 @@
                                                 class="badge bg-warning mt-2">Sale</span></div>
                                     </div>
                                     <div class="card-body d-flex flex-column">
-                                        <h6 class="card-title cursor-pointer">{{ value.ten_san_pham }}</h6>
+                                        <h6 class="card-title cursor-pointer">
+                                            <router-link :to="`/chi-tiet-san-pham/` + value.id + `-` + value.slug_san_pham">
+                                                <a v-bind:href="`/chi-tiet-san-pham/` + value.id + `-` + value.slug_san_pham">
+                                                    {{ value.ten_san_pham }}
+                                                </a>
+                                            </router-link>
+                                        </h6>
                                         <div class="mt-auto">
                                             <div class="d-flex align-items-center fs-6">
                                                 <div class="cursor-pointer">
@@ -176,7 +182,13 @@
                                                 class="badge bg-danger mt-2">Nổi Bật</span></div>
                                     </div>
                                     <div class="card-body d-flex flex-column">
-                                        <h6 class="card-title cursor-pointer">{{ value.ten_san_pham }}</h6>
+                                        <h6 class="card-title cursor-pointer">
+                                            <router-link :to="`/chi-tiet-san-pham/` + value.id + `-` + value.slug_san_pham">
+                                                <a v-bind:href="`/chi-tiet-san-pham/` + value.id + `-` + value.slug_san_pham">
+                                                    {{ value.ten_san_pham }}
+                                                </a>
+                                            </router-link>
+                                        </h6>
                                         <div class="mt-auto">
                                             <div class="d-flex align-items-center fs-6">
                                                 <div class="cursor-pointer">
@@ -235,7 +247,13 @@
                                                 class="badge bg-success mt-2">New</span></div>
                                     </div>
                                     <div class="card-body d-flex flex-column">
-                                        <h6 class="card-title cursor-pointer">{{ value.ten_san_pham }}</h6>
+                                        <h6 class="card-title cursor-pointer">
+                                            <router-link :to="`/chi-tiet-san-pham/` + value.id + `-` + value.slug_san_pham">
+                                                <a v-bind:href="`/chi-tiet-san-pham/` + value.id + `-` + value.slug_san_pham">
+                                                    {{ value.ten_san_pham }}
+                                                </a>
+                                            </router-link>
+                                        </h6>
                                         <div class="mt-auto">
                                             <div class="d-flex align-items-center fs-6">
                                                 <div class="cursor-pointer">
