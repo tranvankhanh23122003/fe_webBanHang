@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router"; // cài vue-router: npm install vue-router@next --save
 import kiemTraAdmin from "./kiemTraAdmin";
 import kiemTraDaiLy from "./kiemTraDaiLy";
+import kiemTraKhachHang from "./kiemTraKhachHang";
 
 const routes = [
     {
@@ -31,6 +32,11 @@ const routes = [
     {
         path : '/admin/khach-hang',
         component: ()=>import('../components/Admin/KhachHang/index.vue'),
+        beforeEnter: kiemTraAdmin,
+    },
+    {
+        path : '/admin/profile',
+        component: ()=>import('../components/Admin/Profile/index.vue'),
         beforeEnter: kiemTraAdmin,
     },
     {
@@ -71,6 +77,12 @@ const routes = [
         beforeEnter: kiemTraDaiLy,
     },
     {
+        path : '/dai-ly/profile',
+        component: ()=>import('../components/DaiLy/Profile/index.vue'),
+        meta: {layout: 'daily'},
+        beforeEnter: kiemTraDaiLy,
+    },
+    {
         path : '/khach-hang/dang-nhap',
         component: ()=>import('../components/KhachHang/DangNhap/index.vue'),
         meta: {layout: 'blank'}
@@ -93,7 +105,8 @@ const routes = [
     {
         path : '/khach-hang/profile',
         component: ()=>import('../components/KhachHang/Profile/index.vue'),
-        meta: {layout: 'client'}
+        meta: {layout: 'client'},
+        beforeEnter: kiemTraKhachHang,
     },
 ]
 
