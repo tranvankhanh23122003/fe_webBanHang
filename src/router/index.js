@@ -10,6 +10,16 @@ const routes = [
         meta: {layout: 'client'}
     },
     {
+        path : '/chi-tiet-san-pham',
+        component: ()=>import('../components/TrangChu/chiTietSanPham.vue'),
+        meta: {layout: 'client'}
+    },
+    {
+        path : '/danh-sach-san-pham',
+        component: ()=>import('../components/TrangChu/danhSachSanPham.vue'),
+        meta: {layout: 'client'}
+    },
+    {
         path : '/admin/danh-muc',
         component: ()=>import('../components/Admin/DanhMuc/index.vue'),
         beforeEnter: kiemTraAdmin,
