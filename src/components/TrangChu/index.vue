@@ -60,14 +60,16 @@
                 <template v-for="(value, index) in list_danh_muc" :key="index">
                     <div class="col-lg-2 mb-2 d-flex">
                         <div class="card flex-fill">
-                            <div class="card-body">
-                                <div class="text-center d-flex flex-column justify-content-center">
-                                    <button type="button" class="btn btn-outline-secondary mx-auto ps-3 mb-2">
-                                        <span v-html="value.icon_danh_muc"></span>
-                                    </button>
-                                    <div class="text-dark">{{ value.ten_danh_muc }}</div>
+                            <router-link :to="`/danh-muc-san-pham/` + value.id + `-` + value.slug_danh_muc">
+                                <div class="card-body">
+                                    <div class="text-center d-flex flex-column justify-content-center">
+                                        <button type="button" class="btn btn-outline-secondary mx-auto ps-3 mb-2">
+                                            <span v-html="value.icon_danh_muc"></span>
+                                        </button>
+                                        <div class="text-dark">{{ value.ten_danh_muc }}</div>
+                                    </div>
                                 </div>
-                            </div>
+                            </router-link>
                         </div>
                     </div>
                 </template>
@@ -98,8 +100,10 @@
                                     </div>
                                     <div class="card-body d-flex flex-column">
                                         <h6 class="card-title cursor-pointer">
-                                            <router-link :to="`/chi-tiet-san-pham/` + value.id + `-` + value.slug_san_pham">
-                                                <a v-bind:href="`/chi-tiet-san-pham/` + value.id + `-` + value.slug_san_pham">
+                                            <router-link
+                                                :to="`/chi-tiet-san-pham/` + value.id + `-` + value.slug_san_pham">
+                                                <a
+                                                    v-bind:href="`/chi-tiet-san-pham/` + value.id + `-` + value.slug_san_pham">
                                                     {{ value.ten_san_pham }}
                                                 </a>
                                             </router-link>
@@ -107,18 +111,19 @@
                                         <div class="mt-auto">
                                             <div class="d-flex align-items-center fs-6">
                                                 <div class="cursor-pointer">
-                                                    <i class="bx bxs-star text-warning"></i>
-                                                    <i class="bx bxs-star text-warning"></i>
-                                                    <i class="bx bxs-star text-warning"></i>
-                                                    <i class="bx bxs-star text-warning"></i>
-                                                    <i class="bx bxs-star text-secondary"></i>
+                                                    <template v-for="items in value.sao_danh_gia" :key="items">
+                                                        <i class="bx bxs-star text-warning"></i>
+                                                    </template>
+                                                    <template v-for="items in (5 - value.sao_danh_gia)" :key="items">
+                                                        <i class="bx bxs-star text-secondary"></i>
+                                                    </template>
                                                 </div>
                                                 <p class="mb-0 ms-auto">4.2(182)</p>
                                             </div>
                                             <div class="clearfix mt-2">
                                                 <p class="mb-0 float-end fw-bold"><span
                                                         class="me-2 text-decoration-line-through text-muted">{{
-                                                        value.gia_ban }}</span><span class="fs-5 text-danger">{{
+                                                            value.gia_ban }}</span><span class="fs-5 text-danger">{{
                                                             value.gia_khuyen_mai }}</span>
                                                 </p>
                                             </div>
@@ -183,8 +188,10 @@
                                     </div>
                                     <div class="card-body d-flex flex-column">
                                         <h6 class="card-title cursor-pointer">
-                                            <router-link :to="`/chi-tiet-san-pham/` + value.id + `-` + value.slug_san_pham">
-                                                <a v-bind:href="`/chi-tiet-san-pham/` + value.id + `-` + value.slug_san_pham">
+                                            <router-link
+                                                :to="`/chi-tiet-san-pham/` + value.id + `-` + value.slug_san_pham">
+                                                <a
+                                                    v-bind:href="`/chi-tiet-san-pham/` + value.id + `-` + value.slug_san_pham">
                                                     {{ value.ten_san_pham }}
                                                 </a>
                                             </router-link>
@@ -192,19 +199,20 @@
                                         <div class="mt-auto">
                                             <div class="d-flex align-items-center fs-6">
                                                 <div class="cursor-pointer">
-                                                    <i class="bx bxs-star text-warning"></i>
-                                                    <i class="bx bxs-star text-warning"></i>
-                                                    <i class="bx bxs-star text-warning"></i>
-                                                    <i class="bx bxs-star text-warning"></i>
-                                                    <i class="bx bxs-star text-secondary"></i>
+                                                    <template v-for="items in value.sao_danh_gia" :key="items">
+                                                        <i class="bx bxs-star text-warning"></i>
+                                                    </template>
+                                                    <template v-for="items in (5 - value.sao_danh_gia)" :key="items">
+                                                        <i class="bx bxs-star text-secondary"></i>
+                                                    </template>
                                                 </div>
                                                 <p class="mb-0 ms-auto">4.2(182)</p>
                                             </div>
                                             <div class="clearfix mt-2">
                                                 <p class="mb-0 float-end fw-bold"><span
                                                         class="me-2 text-decoration-line-through text-muted">{{
-                                                        value.gia_ban }}</span><span class="fs-5 text-danger">{{
-                                                        value.gia_khuyen_mai }}</span>
+                                                            value.gia_ban }}</span><span class="fs-5 text-danger">{{
+                                                            value.gia_khuyen_mai }}</span>
                                                 </p>
                                             </div>
                                         </div>
@@ -248,8 +256,10 @@
                                     </div>
                                     <div class="card-body d-flex flex-column">
                                         <h6 class="card-title cursor-pointer">
-                                            <router-link :to="`/chi-tiet-san-pham/` + value.id + `-` + value.slug_san_pham">
-                                                <a v-bind:href="`/chi-tiet-san-pham/` + value.id + `-` + value.slug_san_pham">
+                                            <router-link
+                                                :to="`/chi-tiet-san-pham/` + value.id + `-` + value.slug_san_pham">
+                                                <a
+                                                    v-bind:href="`/chi-tiet-san-pham/` + value.id + `-` + value.slug_san_pham">
                                                     {{ value.ten_san_pham }}
                                                 </a>
                                             </router-link>
@@ -257,19 +267,20 @@
                                         <div class="mt-auto">
                                             <div class="d-flex align-items-center fs-6">
                                                 <div class="cursor-pointer">
-                                                    <i class="bx bxs-star text-warning"></i>
-                                                    <i class="bx bxs-star text-warning"></i>
-                                                    <i class="bx bxs-star text-warning"></i>
-                                                    <i class="bx bxs-star text-warning"></i>
-                                                    <i class="bx bxs-star text-secondary"></i>
+                                                    <template v-for="items in value.sao_danh_gia" :key="items">
+                                                        <i class="bx bxs-star text-warning"></i>
+                                                    </template>
+                                                    <template v-for="items in (5 - value.sao_danh_gia)" :key="items">
+                                                        <i class="bx bxs-star text-secondary"></i>
+                                                    </template>
                                                 </div>
                                                 <p class="mb-0 ms-auto">4.2(182)</p>
                                             </div>
                                             <div class="clearfix mt-2">
                                                 <p class="mb-0 float-end fw-bold"><span
                                                         class="me-2 text-decoration-line-through text-muted">{{
-                                                        value.gia_ban }}</span><span class="fs-5 text-danger">{{
-                                                        value.gia_khuyen_mai }}</span>
+                                                            value.gia_ban }}</span><span class="fs-5 text-danger">{{
+                                                            value.gia_khuyen_mai }}</span>
                                                 </p>
                                             </div>
                                         </div>

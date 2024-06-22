@@ -19,7 +19,7 @@
                         <div class="menu-title">Home</div>
                     </a>
                 </li>
-                <li class="nav-item dropdown">
+                <!-- <li class="nav-item dropdown">
                     <a href="javascript:;" class="nav-link dropdown-toggle dropdown-toggle-nocaret"
                         data-bs-toggle="dropdown">
                         <div class="parent-icon"><i class='bx bx-spa'></i>
@@ -36,15 +36,17 @@
                                 Áo</a>
                         </li>
                     </ul>
-                </li>
+                </li> -->
                 <template v-for="(value, index) in list_danh_muc" :key="index">
                     <li class="nav-item">
-                        <a class="nav-link" href="/">
-                            <div class="parent-icon">
-                                <span v-html="value.icon_danh_muc"></span>
-                            </div>
-                            <div class="menu-title">{{ value.ten_danh_muc }}</div>
-                        </a>
+                        <router-link :to="`/danh-muc-san-pham/` + value.id + `-` + value.slug_danh_muc">
+                            <a class="nav-link" :href="`/danh-muc-san-pham/` + value.id + `-` + value.slug_danh_muc">
+                                <div class="parent-icon">
+                                    <span v-html="value.icon_danh_muc"></span>
+                                </div>
+                                <div class="menu-title">{{ value.ten_danh_muc }}</div>
+                            </a>
+                        </router-link>
                     </li>
                 </template>
             </ul>

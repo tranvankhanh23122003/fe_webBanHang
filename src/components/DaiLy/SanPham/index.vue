@@ -31,6 +31,10 @@
                          <label>Giá khuyến mãi</label>
                          <input v-model="create_san_pham.gia_khuyen_mai" type="number" class="form-control mt-2">
                       </div>
+                      <div class="mb-2">
+                         <label>Sao Đánh Giá</label>
+                         <input v-model="create_san_pham.sao_danh_gia" type="number" class="form-control mt-2">
+                      </div>
                    </div>
                    <div class="col-lg-6">
                       <div class="mb-2">
@@ -94,6 +98,10 @@
                       <div class="mb-2">
                          <label>Giá khuyến mãi</label>
                          <input v-model="edit_san_pham.gia_khuyen_mai" type="number" class="form-control mt-2">
+                      </div>
+                      <div class="mb-2">
+                         <label>Sao Đánh Giá</label>
+                         <input v-model="edit_san_pham.sao_danh_gia" type="number" class="form-control mt-2">
                       </div>
                    </div>
                    <div class="col-lg-6">
@@ -183,6 +191,7 @@
                          <th class="text-center">Giá Khuyến Mãi</th>
                          <th class="text-center">Mô Tả Ngắn</th>
                          <th class="text-center">Mô Tả Chi Tiết</th>
+                         <th class="text-center">Sao Đánh Giá</th>
                          <th class="text-center">Tình Trạng</th>
                          <th class="text-center">Action</th>
                       </tr>
@@ -204,6 +213,7 @@
                                <i v-on:click="mo_ta_chi_tiet_sp = value.mo_ta_chi_tiet" class="fa-solid fa-newspaper fa-2xl" data-bs-toggle="modal"
                                   data-bs-target="#moTaChiTiet"></i>
                             </td>
+                            <td class="align-middle text-center">{{ value.sao_danh_gia }}</td>
                             <td class="align-middle text-wrap">
                                <button v-on:click="chuyenBan(value)" v-if="value.tinh_trang == 1" class="btn btn-success text-nowrap mb-2">Đang Bán</button>
                                <button v-on:click="chuyenBan(value)" v-else class="btn btn-danger text-nowrap mb-2">Dừng Bán</button>

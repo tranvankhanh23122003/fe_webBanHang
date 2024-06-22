@@ -10,16 +10,6 @@ const routes = [
         meta: {layout: 'client'}
     },
     {
-        path : '/chi-tiet-san-pham-2',
-        component: ()=>import('../components/TrangChu/chiTietSanPham.vue'),
-        meta: {layout: 'client'}
-    },
-    {
-        path : '/danh-sach-san-pham',
-        component: ()=>import('../components/TrangChu/danhSachSanPham.vue'),
-        meta: {layout: 'client'}
-    },
-    {
         path : '/admin/danh-muc',
         component: ()=>import('../components/Admin/DanhMuc/index.vue'),
         beforeEnter: kiemTraAdmin,
@@ -127,6 +117,12 @@ const routes = [
     {
         path : '/danh-muc-san-pham/:id_danh_muc-:slug_danh_muc',
         component: ()=>import('../components/TrangChu/DanhMucSanPham/index.vue'),
+        meta: {layout: 'client'},
+        props: true
+    },
+    {
+        path : '/dai-ly-san-pham/:id_dai_ly',
+        component: ()=>import('../components/TrangChu/DaiLySanPham/index.vue'),
         meta: {layout: 'client'},
         props: true
     },

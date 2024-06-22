@@ -4,10 +4,10 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row align-items-center">
-                        <div class="col-lg-3 col-xl-2">
-                            <h4>Danh Sách Sản Phẩm</h4>
+                        <div class="col-lg-6 col-xl-6">
+                            <h4>Danh Sách Sản Phẩm Đại Lý</h4>
                         </div>
-                        <div class="col-lg-9 col-xl-10">
+                        <div class="col-lg-6 col-xl-6">
                             <form class="float-lg-end">
                                 <div class="row row-cols-lg-2 row-cols-xl-auto g-2">
                                     <div class="col">
@@ -94,10 +94,10 @@
 <script>
 import axios from 'axios';
 export default {
-    props: ['id_danh_muc', 'slug_danh_muc'],
+    props: ['id_dai_ly'],
     data() {
         return {
-            id_danh_muc: this.$route.params.id_danh_muc,
+            id_dai_ly: this.$route.params.id_dai_ly,
             list_san_pham: [],
         }
     },
@@ -107,7 +107,7 @@ export default {
     methods: {
         layThongTinSanPhamTuDanhMuc() {
             axios
-                .get('http://127.0.0.1:8000/api/thong-tin-san-pham-tu-danh-muc/' + this.id_danh_muc)
+                .get('http://127.0.0.1:8000/api/dai-ly-san-pham/' + this.id_dai_ly)
                 .then((res) => {
                     if (res.data.status) {
                         this.list_san_pham = res.data.data;
