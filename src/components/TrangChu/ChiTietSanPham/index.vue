@@ -39,11 +39,11 @@
                                 <div class="col">
                                     <label class="form-label">Số Lượng</label>
                                     <div class="input-group input-spinner">
-                                        <button class="btn btn-white" type="button" id="button-plus"> -
+                                        <button v-on:click="tru()" class="btn btn-white" type="button" id="button-plus"> -
                                         </button>
-                                        <input type="text" class="form-control text-center" value="1"
+                                        <input v-on:change="doi()" v-model="san_pham.so_luong_mua" type="number" class="form-control text-center"
                                             style="width: 100px; max-width: 100px;">
-                                        <button class="btn btn-white" type="button" id="button-minus"> +
+                                        <button v-on:click="cong()" class="btn btn-white" type="button" id="button-minus"> +
                                         </button>
                                     </div>
                                 </div>
@@ -59,7 +59,7 @@
                             </div>
                             <div class="d-flex gap-3 mt-3">
                                 <a href="#" class="btn btn-primary">Mua ngay</a>
-                                <a href="" class="btn btn-outline-primary"><span class="text">Thêm vào giỏ
+                                <a v-on:click="themGioHang()" class="btn btn-outline-primary"><span class="text">Thêm vào giỏ
                                         hàng</span> <i class="bx bxs-cart-alt"></i></a>
                             </div>
                         </div>
@@ -173,12 +173,44 @@ export default {
         this.layThongTinSanPham();
     },
     methods: {
+        doi() {
+            if(this.san_pham.so_luong_mua < 1) {
+                var message   = "Số lượng mua tối thiểu phải là 1 sản phẩm."
+                var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + message + '<span>';
+                this.$toast.warning(thong_bao);
+                this.san_pham.so_luong_mua = 1;
+            } else if(this.san_pham.so_luong_mua > this.san_pham.so_luong) {
+                this.san_pham.so_luong_mua = this.san_pham.so_luong;
+                var message   = "Số lượng mua tối đa chỉ được " + this.san_pham.so_luong + " sản phẩm."
+                var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + message + '<span>';
+                this.$toast.warning(thong_bao);
+            }
+        },
+        tru() {
+            this.san_pham.so_luong_mua = this.san_pham.so_luong_mua * 1 - 1;
+            if(this.san_pham.so_luong_mua < 1) {
+                var message   = "Số lượng mua tối thiểu phải là 1 sản phẩm."
+                var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + message + '<span>';
+                this.$toast.warning(thong_bao);
+                this.san_pham.so_luong_mua = 1;
+            }
+        },
+        cong() {
+            this.san_pham.so_luong_mua = this.san_pham.so_luong_mua * 1 + 1;
+            if(this.san_pham.so_luong_mua > this.san_pham.so_luong) {
+                this.san_pham.so_luong_mua = this.san_pham.so_luong;
+                var message   = "Số lượng mua tối đa chỉ được " + this.san_pham.so_luong + " sản phẩm."
+                var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + message + '<span>';
+                this.$toast.warning(thong_bao);
+            }
+        },
         layThongTinSanPham() {
             axios
                 .get('http://127.0.0.1:8000/api/chi-tiet-san-pham/' + this.id_san_pham)
                 .then((res) => {
                     if (res.data.status) {
                         this.san_pham = res.data.data;
+                        this.san_pham.so_luong_mua = 1;
                     } else {
                         var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
                         this.$toast.error(thong_bao);
@@ -186,6 +218,23 @@ export default {
                     }
                 })
         },
+        themGioHang() {
+            axios
+                .post("http://127.0.0.1:8000/api/khach-hang/gio-hang/create", this.san_pham, {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem("token_khach_hang")
+                    }
+                })
+                .then((res) => {
+                    if (res.data.status) {
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.success(thong_bao);
+                    } else {
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.error(thong_bao);
+                    }
+                })
+        }
     },
 }
 </script>
