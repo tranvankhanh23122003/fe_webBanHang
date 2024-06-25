@@ -84,7 +84,6 @@
                                 </p>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -97,15 +96,15 @@ export default {
     props: ['id_dai_ly'],
     data() {
         return {
-            id_dai_ly: this.$route.params.id_dai_ly,
-            list_san_pham: [],
+            id_dai_ly       : this.$route.params.id_dai_ly,
+            list_san_pham   : [],
         }
     },
     mounted() {
-        this.layThongTinSanPhamTuDanhMuc();
+        this.layThongTinSanPhamDaiLy();
     },
     methods: {
-        layThongTinSanPhamTuDanhMuc() {
+        layThongTinSanPhamDaiLy() {
             axios
                 .get('http://127.0.0.1:8000/api/dai-ly-san-pham/' + this.id_dai_ly)
                 .then((res) => {

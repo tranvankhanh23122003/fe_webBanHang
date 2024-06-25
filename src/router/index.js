@@ -126,6 +126,16 @@ const routes = [
         meta: {layout: 'client'},
         props: true
     },
+    // {
+    //     path : '/dai-ly-san-pham',
+    //     component: ()=>import('../components/TrangChu/viewDaiLySanPham/index.vue'),
+    //     meta: {layout: 'client'},
+    // },
+    {
+        path : '/gio-hang',
+        component: ()=>import('../components/TrangChu/viewGioHang/index.vue'),
+        meta: {layout: 'client'},
+    },
 ]
 
 const router = createRouter({
