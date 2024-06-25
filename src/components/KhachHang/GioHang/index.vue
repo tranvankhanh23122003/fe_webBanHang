@@ -1,0 +1,156 @@
+<template>
+    <div class="row">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="d-lg-flex align-items-center mb-4 gap-3">
+                            <div class="position-relative">
+                                <input type="text" class="form-control ps-5 radius-30" placeholder="Search Order"> <span
+                                    class="position-absolute top-50 product-show translate-middle-y"><i
+                                        class="bx bx-search"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="text-end">
+                            <input class="form-check-input me-3" type="checkbox" value="" aria-label="..."><b>Chọn Tất
+                                Cả (3)</b>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th></th>
+                                <th class="text-center text-nowrap">#</th>
+                                <th class="text-center text-nowrap">Hình Ảnh</th>
+                                <th class="text-nowrap">Sản Phẩm</th>
+                                <th class="text-nowrap">Đại Lý</th>
+                                <th class="text-center text-nowrap">Đơn Giá</th>
+                                <th class="text-center text-nowrap">Số Lượng</th>
+                                <th class="text-center text-nowrap">Thành Tiền</th>
+                                <th class="text-center text-nowrap">Ghi Chú</th>
+                                <th class="text-center text-nowrap">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(value, index) in list_gio_hang" :key="index">
+                                <td class="align-middle text-center">
+                                    <input class="form-check-input me-3" type="checkbox" value="" aria-label="...">
+                                </td>
+                                <td class="align-middle">
+                                    <h6 class="mb-0 font-14">{{ index + 1 }}</h6>
+                                </td>
+                                <td class="text-wrap text-center align-middle">
+                                    <img src="https://img.lazcdn.com/g/p/e2dfff15ecfce0c7636d4ceee9c89961.jpg_400x400q80.jpg_.webp"
+                                        style="width: 50px; height: auto;" alt="">
+                                </td>
+                                <td class="text-wrap align-middle">{{ value.ten_san_pham }}</td>
+                                <td class="align-middle">{{ value.id_dai_ly }}</td>
+                                <td class="text-end align-middle">{{ value.don_gia }}</td>
+                                <td style="width: 140px;" class="align-middle">
+                                    <div class="input-group input-spinner d-flex justify-content-center flex-row"
+                                        style="flex-wrap: nowrap;">
+                                        <button class="btn btn-white" type="button" id="button-minus"> −
+                                        </button>
+                                        <input v-on:change="capNhat(value)" type="text" class="form-control text-center" v-model="value.so_luong">
+                                        <button class="btn btn-white" type="button" id="button-plus"> +
+                                        </button>
+                                    </div>
+                                </td>
+                                <td class="text-end align-middle">{{ value.thanh_tien }}</td>
+                                <td class="text-center align-middle">
+                                    <input v-on:change="capNhat(value)" v-model="value.ghi_chu" type="text" class="form-control">
+                                </td>
+                                <td class="text-center align-middle">
+                                    <button v-on:click="xoaGioHang(value)" class="btn"><i class="fa-solid fa-trash text-danger"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-6">
+                        <div class="ms-auto"><a href="javascript:;" class="btn btn-primary radius-30 mt-2 mt-lg-0">
+                                <i class="fa-solid fa-money-bill"></i>Tổng Tiền: Tí nữa code sau nhé</a></div>
+                    </div>
+                    <div class="col-6 text-end text-nowrap">
+                        <div class="ms-auto" data-bs-toggle="modal" data-bs-target="#muaHangModal"><a
+                                class="btn btn-danger radius-30 mt-2 mt-lg-0"><i
+                                    class="fa-solid fa-cart-shopping"></i>Mua Hàng</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>   
+</template>
+<script>
+import axios from 'axios'
+export default {
+    data() {
+        return {
+            list_gio_hang   :   [],
+        }
+    },
+    mounted() {
+        this.layDataGioHang();
+    },
+    methods: {
+        // Vì dựa vào thông tin đăng nhập => axios => header  => trên BE $user = Auth::sanctum
+        layDataGioHang() {
+            axios
+                .get("http://127.0.0.1:8000/api/khach-hang/gio-hang/data", {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem("token_khach_hang")
+                    }
+                })
+                .then((res) => {
+                    this.list_gio_hang = res.data.data;
+                    console.log(this.list_gio_hang);
+                })
+        },
+        xoaGioHang(payload) {
+            axios
+                .post("http://127.0.0.1:8000/api/khach-hang/gio-hang/delete", payload, {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem("token_khach_hang")
+                    }
+                })
+                .then((res) => {
+                    if (res.data.status) {
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.success(thong_bao);
+                        this.layDataGioHang();
+                    } else {
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.error(thong_bao);
+                    }
+                })
+        },
+        capNhat(payload) {
+            axios
+                .post("http://127.0.0.1:8000/api/khach-hang/gio-hang/update", payload, {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem("token_khach_hang")
+                    }
+                })
+                .then((res) => {
+                    if (res.data.status) {
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.success(thong_bao);
+                        this.layDataGioHang();
+                    } else {
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.error(thong_bao);
+                    }
+                })
+        }
+    },
+}
+</script>
+<style>
+    
+</style>

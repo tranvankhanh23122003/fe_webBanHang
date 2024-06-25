@@ -126,6 +126,12 @@ const routes = [
         meta: {layout: 'client'},
         props: true
     },
+    {
+        path : '/khach-hang/gio-hang',
+        component: ()=>import('../components/KhachHang/GioHang/index.vue'),
+        meta: {layout: 'client'},
+        beforeEnter: kiemTraKhachHang
+    },
     // {
     //     path : '/dai-ly-san-pham',
     //     component: ()=>import('../components/TrangChu/viewDaiLySanPham/index.vue'),
