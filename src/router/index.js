@@ -35,11 +35,6 @@ const routes = [
         beforeEnter: kiemTraAdmin,
     },
     {
-        path : '/admin/ma-giam-gia',
-        component: ()=>import('../components/Admin/MaGiamGia/index.vue'),
-        beforeEnter: kiemTraAdmin,
-    },
-    {
         path : '/admin/profile',
         component: ()=>import('../components/Admin/Profile/index.vue'),
         beforeEnter: kiemTraAdmin,
