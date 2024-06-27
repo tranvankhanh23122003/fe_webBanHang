@@ -53,10 +53,10 @@
                                 <td style="width: 140px;" class="align-middle">
                                     <div class="input-group input-spinner d-flex justify-content-center flex-row"
                                         style="flex-wrap: nowrap;">
-                                        <button class="btn btn-white" type="button" id="button-minus"> −
+                                        <button v-on:click="tru(value)" class="btn btn-white" type="button" id="button-minus"> −
                                         </button>
                                         <input v-on:change="capNhat(value)" type="text" class="form-control text-center" v-model="value.so_luong">
-                                        <button class="btn btn-white" type="button" id="button-plus"> +
+                                        <button v-on:click="cong(value)" class="btn btn-white" type="button" id="button-plus"> +
                                         </button>
                                     </div>
                                 </td>
@@ -147,7 +147,23 @@ export default {
                         this.$toast.error(thong_bao);
                     }
                 })
-        }
+        },
+        tru(value) {
+            value.so_luong = value.so_luong * 1 - 1;
+            if(value.so_luong < 1) {
+                var message   = "Số lượng mua tối thiểu phải là 1 sản phẩm."
+                var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + message + '<span>';
+                this.$toast.warning(thong_bao);
+                value.so_luong = 1;
+                this.capNhat(value)
+            } else {
+                this.capNhat(value)
+            }
+        },
+        cong(value) {
+            value.so_luong = value.so_luong * 1 + 1;
+            this.capNhat(value)
+        },
     },
 }
 </script>
