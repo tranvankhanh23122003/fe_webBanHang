@@ -21,6 +21,7 @@
                                 <th class="text-center">Mã Số Thuế</th>
                                 <th class="text-center">Địa Chỉ Kinh Doanh</th>
                                 <th class="text-center">Tình Trạng</th>
+                                <th class="text-center">VIP</th>
                                 <th class="text-center">Action</th>
                             </tr>
                         </thead>
@@ -39,6 +40,10 @@
                                         <button v-on:click="changeTrangThai(value)" v-if="value.is_active == 1" class="btn btn-success w-100">Đã Kích
                                             Hoạt</button>
                                         <button v-on:click="changeTrangThai(value)" v-else class="btn btn-danger w-100">Chưa Kích Hoạt</button>
+                                    </td>
+                                    <td class="align-middle text-center">
+                                        <button v-on:click="changeVip(value)" v-if="value.is_vip == 1" class="btn btn-success w-100">Mở</button>
+                                        <button v-on:click="changeVip(value)" v-else class="btn btn-danger w-100">Đóng</button>
                                     </td>
                                     <td class="align-middle text-center">
                                         <button v-on:click="Object.assign(edit_dai_ly, value)"
@@ -278,6 +283,25 @@ export default {
         changeTrangThai(value) {
             axios
                 .post("http://127.0.0.1:8000/api/admin/dai-ly/doi-trang-thai", value, {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem("token_nhan_vien")
+                    }
+                })
+                .then((res) => {
+                    if (res.data.status) {
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.success(thong_bao);
+                        this.layDataDaiLy();
+                    } else {
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.error(thong_bao);
+                    }
+                })
+        },
+
+        changeVip(value) {
+            axios
+                .post("http://127.0.0.1:8000/api/admin/dai-ly/doi-trang-thai-vip", value, {
                     headers: {
                         Authorization: 'Bearer ' + localStorage.getItem("token_nhan_vien")
                     }
