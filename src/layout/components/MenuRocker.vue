@@ -55,6 +55,15 @@
 						</a>
 					</router-link>
 				</li>
+				<li class="nav-item">
+					<router-link to="/admin/ma-giam-gia">
+						<a class="nav-link" href="/admin/ma-giam-gia">
+							<div class="parent-icon"><i class="fa-solid fa-ticket"></i>
+							</div>
+							<div class="menu-title">Mã Giảm Giá</div>
+						</a>
+					</router-link>
+				</li>
 			</ul>
 		</nav>
 	</div>
