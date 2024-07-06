@@ -72,10 +72,7 @@
                     </table>
                 </div>
                 <hr>
-                <div class="row">
-                    
-                </div>
-                <div class="row mt-4">
+                <div class="row mt-3">
                     <div class="col-lg-8 d-flex flex-row align-items-center text-nowrap">
                         <label class="me-2"><b>Địa Chỉ: </b></label>
                         <select class="form-select">
@@ -90,12 +87,14 @@
                 </div>
                 <div class="row mt-4">
                     <div class="col-6">
-                        <div class="ms-auto"><a href="javascript:;" class="btn btn-primary radius-30 mt-2 mt-lg-0">
-                                <i class="fa-solid fa-money-bill"></i>Tổng Tiền: Tí nữa code sau nhé</a></div>
+                        <div class="ms-auto">
+                                <p><i class="fa-solid fa-money-bill fa-xl me-2"></i><b>Tổng Tiền Hóa Đơn:</b> Tí nữa code sau nhé</p>
+                                <p><i class="fa-solid fa-money-bill-trend-up fa-xl me-2"></i><b>Só Tiền Giảm:</b> Tí nữa code sau nhé</p>
+                                <p><i class="fa-solid fa-money-bill-transfer"></i><b>Tổng tiền thanh toán:</b> Tí nữa code sau nhé</p>
+                        </div>
                     </div>
-                    <div class="col-6 text-end text-nowrap">
-                        <div class="ms-auto"><a
-                                class="btn btn-danger radius-30 mt-2 mt-lg-0"><i
+                    <div class="col-6 text-end text-nowrap d-flex align-items-end">
+                        <div class="ms-auto"><a class="btn btn-danger radius-30 mt-2 mt-lg-0"><i
                                     class="fa-solid fa-cart-shopping"></i>Mua Hàng</a>
                         </div>
                     </div>
