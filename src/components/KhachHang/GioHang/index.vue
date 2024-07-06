@@ -53,29 +53,31 @@
                                 <td style="width: 140px;" class="align-middle">
                                     <div class="input-group input-spinner d-flex justify-content-center flex-row"
                                         style="flex-wrap: nowrap;">
-                                        <button v-on:click="tru(value)" class="btn btn-white" type="button" id="button-minus"> −
+                                        <button v-on:click="tru(value)" class="btn btn-white" type="button"
+                                            id="button-minus"> −
                                         </button>
-                                        <input v-on:change="capNhat(value)" type="text" class="form-control text-center" v-model="value.so_luong">
-                                        <button v-on:click="cong(value)" class="btn btn-white" type="button" id="button-plus"> +
+                                        <input v-on:change="capNhat(value)" type="text" class="form-control text-center"
+                                            v-model="value.so_luong">
+                                        <button v-on:click="cong(value)" class="btn btn-white" type="button"
+                                            id="button-plus"> +
                                         </button>
                                     </div>
                                 </td>
                                 <td class="text-end align-middle">{{ value.thanh_tien }}</td>
                                 <td class="text-center align-middle">
-                                    <input v-on:change="capNhat(value)" v-model="value.ghi_chu" type="text" class="form-control">
+                                    <input v-on:change="capNhat(value)" v-model="value.ghi_chu" type="text"
+                                        class="form-control">
                                 </td>
                                 <td class="text-center align-middle">
-                                    <button v-on:click="xoaGioHang(value)" class="btn"><i class="fa-solid fa-trash text-danger"></i></button>
+                                    <button v-on:click="xoaGioHang(value)" class="btn"><i
+                                            class="fa-solid fa-trash text-danger"></i></button>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 <hr>
-                <div class="row">
-                    
-                </div>
-                <div class="row mt-4">
+                <div class="row mt-3">
                     <div class="col-lg-8 d-flex flex-row align-items-center text-nowrap">
                         <label class="me-2"><b>Địa Chỉ: </b></label>
                         <select class="form-select">
@@ -84,32 +86,41 @@
                         </select>
                     </div>
                     <div class="col-lg-4 d-flex flex-row align-items-center text-nowrap">
-                        <label class="me-2"><i class="fa-xl fa-solid fa-ticket text-danger me-2"></i><b>DZ Voucher: </b></label>
-                        <input type="text" class="form-control" placeholder="Nhập mã giảm giá">
+                        <label class="me-2"><i class="fa-xl fa-solid fa-ticket text-danger me-2"></i><b>DZ Voucher:
+                            </b></label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Nhập mã giảm giá">
+                            <button class="btn btn-outline-secondary" type="button" id="button-addon2">Áp Dụng</button>
+                        </div>
+
                     </div>
                 </div>
+                <hr>
                 <div class="row mt-4">
                     <div class="col-6">
-                        <div class="ms-auto"><a href="javascript:;" class="btn btn-primary radius-30 mt-2 mt-lg-0">
-                                <i class="fa-solid fa-money-bill"></i>Tổng Tiền: Tí nữa code sau nhé</a></div>
+                        <div class="ms-auto">
+                            
+                                <p><i class="fa-solid fa-money-bill fa-xl me-2"></i><b>Tổng Tiền Hóa Đơn:</b> Tí nữa code sau nhé</p>
+                                <p><i class="fa-solid fa-money-bill-trend-up fa-xl me-2"></i><b>Só Tiền Giảm:</b> Tí nữa code sau nhé</p>
+                                <p><i class="fa-solid fa-money-bill-transfer"></i><b>Tổng tiền thanh toán:</b> Tí nữa code sau nhé</p>
+                        </div>
                     </div>
-                    <div class="col-6 text-end text-nowrap">
-                        <div class="ms-auto"><a
-                                class="btn btn-danger radius-30 mt-2 mt-lg-0"><i
+                    <div class="col-6 text-end text-nowrap d-flex align-items-end">
+                        <div class="ms-auto"><a class="btn btn-danger radius-30 mt-2 mt-lg-0"><i
                                     class="fa-solid fa-cart-shopping"></i>Mua Hàng</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>   
+    </div>
 </template>
 <script>
 import axios from 'axios'
 export default {
     data() {
         return {
-            list_gio_hang   :   [],
+            list_gio_hang: [],
         }
     },
     mounted() {
@@ -167,8 +178,8 @@ export default {
         },
         tru(value) {
             value.so_luong = value.so_luong * 1 - 1;
-            if(value.so_luong < 1) {
-                var message   = "Số lượng mua tối thiểu phải là 1 sản phẩm."
+            if (value.so_luong < 1) {
+                var message = "Số lượng mua tối thiểu phải là 1 sản phẩm."
                 var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + message + '<span>';
                 this.$toast.warning(thong_bao);
                 value.so_luong = 1;
@@ -184,6 +195,4 @@ export default {
     },
 }
 </script>
-<style>
-    
-</style>
+<style></style>
