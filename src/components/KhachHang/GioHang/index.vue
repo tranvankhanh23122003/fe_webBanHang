@@ -71,13 +71,30 @@
                         </tbody>
                     </table>
                 </div>
+                <hr>
+                <div class="row">
+                    
+                </div>
+                <div class="row mt-4">
+                    <div class="col-lg-8 d-flex flex-row align-items-center text-nowrap">
+                        <label class="me-2"><b>Địa Chỉ: </b></label>
+                        <select class="form-select">
+                            <option value="0">32 Xuân Diệu</option>
+                            <option value="2">202 Võ Nguyên Giáp</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-4 d-flex flex-row align-items-center text-nowrap">
+                        <label class="me-2"><i class="fa-xl fa-solid fa-ticket text-danger me-2"></i><b>DZ Voucher: </b></label>
+                        <input type="text" class="form-control" placeholder="Nhập mã giảm giá">
+                    </div>
+                </div>
                 <div class="row mt-4">
                     <div class="col-6">
                         <div class="ms-auto"><a href="javascript:;" class="btn btn-primary radius-30 mt-2 mt-lg-0">
                                 <i class="fa-solid fa-money-bill"></i>Tổng Tiền: Tí nữa code sau nhé</a></div>
                     </div>
                     <div class="col-6 text-end text-nowrap">
-                        <div class="ms-auto" data-bs-toggle="modal" data-bs-target="#muaHangModal"><a
+                        <div class="ms-auto"><a
                                 class="btn btn-danger radius-30 mt-2 mt-lg-0"><i
                                     class="fa-solid fa-cart-shopping"></i>Mua Hàng</a>
                         </div>

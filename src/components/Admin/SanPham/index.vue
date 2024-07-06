@@ -175,9 +175,16 @@
       <div class="row">
          <div class="col-lg-12">
             <div class="card">
-               <div class="card-header d-flex justify-content-between align-items-center">
-                  <h6><b>DANH SÁCH SẢN PHẨM</b></h6>
-                  <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#themSP">Thêm mới sản phẩm</button>
+               <div class="card-header ">
+                  <div class="d-flex justify-content-between align-items-center">
+                     <h6><b>DANH SÁCH SẢN PHẨM</b></h6>
+                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#themSP">Thêm mới sản phẩm</button>
+                  </div>
+                  <div class="input-group mt-3 w-100">
+                     <input type="text" class="form-control search-control border border-2 border-secondary" placeholder="Search..."> 
+                     <span class="position-absolute top-50 search-show translate-middle-y" style="left: 15px;"><i class="bx bx-search"></i></span>
+                     <button class="btn btn-outline-secondary" type="button" id="button-addon2">Tìm Kiếm</button>
+                  </div>
                </div>
                <div class="card-body table-responsive">
                   <table class="table table-bordered table-hover ">
