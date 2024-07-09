@@ -88,6 +88,12 @@ const routes = [
         beforeEnter: kiemTraDaiLy,
     },
     {
+        path : '/dai-ly/don-hang',
+        component: ()=>import('../components/DaiLy/DonHang/index.vue'),
+        meta: {layout: 'daily'},
+        beforeEnter: kiemTraDaiLy,
+    },
+    {
         path : '/khach-hang/dang-nhap',
         component: ()=>import('../components/KhachHang/DangNhap/index.vue'),
         meta: {layout: 'blank'}
@@ -134,6 +140,12 @@ const routes = [
     {
         path : '/khach-hang/gio-hang',
         component: ()=>import('../components/KhachHang/GioHang/index.vue'),
+        meta: {layout: 'client'},
+        beforeEnter: kiemTraKhachHang
+    },
+    {
+        path : '/khach-hang/don-hang',
+        component: ()=>import('../components/KhachHang/DonHang/index.vue'),
         meta: {layout: 'client'},
         beforeEnter: kiemTraKhachHang
     },
