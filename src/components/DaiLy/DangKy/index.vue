@@ -100,6 +100,13 @@ export default {
                         this.$toast.success(thong_bao);
                         this.create_dai_ly = {};
                     }
+                })
+                .catch((errors) => {
+                    const listErrors = errors.response.data.errors;
+                    Object.values(listErrors).forEach((value) => {
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + value + '<span>';
+                        this.$toast.error(thong_bao);
+                    })
                 });
         }
     },

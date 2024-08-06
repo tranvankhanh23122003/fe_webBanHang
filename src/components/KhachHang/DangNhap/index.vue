@@ -68,12 +68,20 @@ export default {
                         this.khach_hang = {}
                         // Lưu lại ở trình duyệt
                         localStorage.setItem('token_khach_hang', res.data.token);
+                        localStorage.setItem('ten_kh', res.data.ten_kh);
                         this.$router.push('/khach-hang/profile');
                     } else {
                         var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
                         this.$toast.error(thong_bao);
                     }
                 })
+                .catch((errors) => {
+                    const listErrors = errors.response.data.errors;
+                    Object.values(listErrors).forEach((value) => {
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + value + '<span>';
+                        this.$toast.error(thong_bao);
+                    })
+                });
         },
     },
 }
