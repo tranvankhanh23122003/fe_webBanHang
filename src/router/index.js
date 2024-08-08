@@ -5,6 +5,18 @@ import kiemTraKhachHang from "./kiemTraKhachHang";
 
 const routes = [
     {
+        path : '/dai-ly/kich-hoat/:id_dai_ly',
+        component: ()=>import('../components/DaiLy/KichHoat/index.vue'),
+        meta: {layout: 'blank'},
+        props : true
+    },
+    {
+        path : '/khach-hang/kich-hoat/:id_khach_hang',
+        component: ()=>import('../components/KhachHang/KichHoat/index.vue'),
+        meta: {layout: 'blank'},
+        props : true
+    },
+    {
         path : '/',
         component: ()=>import('../components/TrangChu/index.vue'),
         meta: {layout: 'client'}
