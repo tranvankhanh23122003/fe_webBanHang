@@ -17,6 +17,12 @@ const routes = [
         props : true
     },
     {
+        path : '/khach-hang/doi-mat-khau/:id_khach_hang',
+        component: ()=>import('../components/KhachHang/LayLaiMatKhau/index.vue'),
+        meta: {layout: 'blank'},
+        props : true
+    },
+    {
         path : '/',
         component: ()=>import('../components/TrangChu/index.vue'),
         meta: {layout: 'client'}
