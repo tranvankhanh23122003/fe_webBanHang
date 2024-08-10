@@ -11,8 +11,20 @@ const routes = [
         props : true
     },
     {
+        path : '/dai-ly/doi-mat-khau/:id_dai_ly',
+        component: ()=>import('../components/DaiLy/LayLaiMatKhau/index.vue'),
+        meta: {layout: 'blank'},
+        props : true
+    },
+    {
         path : '/khach-hang/kich-hoat/:id_khach_hang',
         component: ()=>import('../components/KhachHang/KichHoat/index.vue'),
+        meta: {layout: 'blank'},
+        props : true
+    },
+    {
+        path : '/khach-hang/doi-mat-khau/:id_khach_hang',
+        component: ()=>import('../components/KhachHang/LayLaiMatKhau/index.vue'),
         meta: {layout: 'blank'},
         props : true
     },

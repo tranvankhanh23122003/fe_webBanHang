@@ -15,14 +15,14 @@
                                     <p class="text-muted">Nhập lại mật khẩu mới để thay đổi mật khẩu</p>
                                     <div class="mb-3 mt-3">
                                         <label class="form-label">Mật khẩu mới</label>
-                                        <input type="text" class="form-control" placeholder="Nhập mật khẩu của bạn">
+                                        <input v-model="khach_hang.password" type="text" class="form-control" placeholder="Nhập mật khẩu của bạn">
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label">Xác nhận mật khẩu</label>
-                                        <input type="text" class="form-control" placeholder="Nhập lại mật khẩu của bạn">
+                                        <input v-model="khach_hang.re_password" type="text" class="form-control" placeholder="Nhập lại mật khẩu của bạn">
                                     </div>
                                     <div class="d-grid gap-2">
-                                        <button type="button" class="btn btn-primary">Thay
+                                        <button v-on:click="doiMatKhau()" type="button" class="btn btn-primary">Thay
                                             đổi mật khẩu</button>
                                         <router-link to="/khach-hang/dang-nhap">
                                             <a class="btn btn-light w-100"><i class="bx bx-arrow-back mr-1"></i>Quay lại trang
@@ -43,8 +43,41 @@
     </div>
 </template>
 <script>
-export default {
+import axios from 'axios';
 
+export default {
+    props : ['id_khach_hang'],
+    data() {
+        return {
+            khach_hang : {
+                'id'    :   this.$route.params.id_khach_hang
+            },
+        }
+    },
+    methods: {
+        doiMatKhau() {
+            axios
+                .post("http://127.0.0.1:8000/api/khach-hang/doi-mat-khau", this.khach_hang)
+                .then((res) => {
+                    if (res.data.status) {
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.success(thong_bao);
+                        this.$router.push('/khach-hang/dang-nhap')
+                    } else {
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.error(thong_bao);
+                        this.$router.push('/khach-hang/dang-nhap');
+                    }
+                })
+                .catch((res) => {
+                    var list = Object.values(res.response.data.errors);
+                    list.forEach((v, k) => {
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + v[0] + '<span>';
+                        this.$toast.error(thong_bao);
+                    });
+                });
+        },
+    },
 }
 </script>
 <style></style>
