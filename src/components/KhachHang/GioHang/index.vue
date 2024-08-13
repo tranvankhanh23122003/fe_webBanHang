@@ -140,6 +140,7 @@ export default {
                 'ma_code_giam'          :   this.code,
                 'so_tien_giam'          :   this.tien_giam,
                 'so_tien_thanh_toan'    :   this.tong_tien - this.tien_giam,
+                'ds_mua_sp'             :   this.list_gio_hang,
             };
             axios
                 .post("http://127.0.0.1:8000/api/khach-hang/don-hang/create", payload, {
