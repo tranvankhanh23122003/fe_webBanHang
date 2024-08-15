@@ -38,7 +38,7 @@
                         <tbody>
                             <tr v-for="(value, index) in list_gio_hang" :key="index">
                                 <td class="align-middle text-center">
-                                    <input class="form-check-input me-3" type="checkbox" value="" aria-label="...">
+                                    <input  v-model="value.dang_chon " @change="tinhTongTien()" class="form-check-input me-3" value="" type="checkbox" aria-label="...">
                                 </td>
                                 <td class="align-middle">
                                     <h6 class="mb-0 font-14">{{ index + 1 }}</h6>
@@ -90,7 +90,7 @@
                         <label class="me-2"><i class="fa-xl fa-solid fa-ticket text-danger me-2"></i><b>DZ Voucher:
                             </b></label>
                         <div class="input-group">
-                            <input v-model="code" type="text" class="form-control" placeholder="Nhập mã giảm giá">
+                            <input type="text" class="form-control" placeholder="Nhập mã giảm giá">
                             <button v-on:click="apDungCode()" class="btn btn-outline-secondary" type="button" id="button-addon2">Áp Dụng</button>
                         </div>
                     </div>
@@ -99,7 +99,7 @@
                 <div class="row mt-4">
                     <div class="col-6">
                         <div class="ms-auto">
-                            
+
                                 <p><i class="fa-solid fa-money-bill fa-xl me-2"></i><b>Tổng Tiền Hóa Đơn:</b> {{ formatVND(tong_tien) }}</p>
                                 <p><i class="fa-solid fa-money-bill-trend-up fa-xl me-2"></i><b>Só Tiền Giảm:</b> {{ formatVND(tien_giam) }}</p>
                                 <p><i class="fa-solid fa-money-bill-transfer"></i><b>Tổng tiền thanh toán:</b> {{ formatVND(tong_tien -tien_giam) }}</p>
@@ -122,10 +122,10 @@ export default {
         return {
             list_gio_hang   : [],
             list_dia_chi    : [],
-            code            : '',
             tong_tien       : 0,
             tien_giam       : 0,
             id_dia_chi      : null,
+
         }
     },
     mounted() {
@@ -134,13 +134,15 @@ export default {
     },
     methods: {
         muaHang() {
+            var list = [];
+            this.list_gio_hang.forEach((v,k) => {
+                if(v.dang_chon == true){
+                    list.push(v.id);
+                }
+            });
             var payload = {
-                'id_dia_chi'            :   this.id_dia_chi,
-                'tong_tien'             :   this.tong_tien,
-                'ma_code_giam'          :   this.code,
-                'so_tien_giam'          :   this.tien_giam,
-                'so_tien_thanh_toan'    :   this.tong_tien - this.tien_giam,
-                'ds_mua_sp'             :   this.list_gio_hang,
+                'id_dia_chi_khach_hang'            :   this.id_dia_chi,
+                'list_san_pham_can_mua'            :   list,
             };
             axios
                 .post("http://127.0.0.1:8000/api/khach-hang/don-hang/create", payload, {
@@ -162,45 +164,19 @@ export default {
         },
         formatVND(number) {
             return new Intl.NumberFormat('vi-VI', { style: 'currency', currency: 'VND' }).format(number);
-        },  
+        },
         tinhTongTien() {
             var tong = 0;
             this.list_gio_hang.forEach((value, index) => {
-                tong = tong + value.thanh_tien;
+                if(value.dang_chon == true){
+                    tong = tong + value.thanh_tien;
+                }
             });
             this.tong_tien = tong;
         },
         // Vì dựa vào thông tin đăng nhập => axios => header  => trên BE $user = Auth::sanctum
         apDungCode() {
-            var payload = {
-                'code' : this.code
-            };
-            axios
-                .post("http://127.0.0.1:8000/api/ma-giam-gia/kiem-tra", payload)
-                .then((res) => {
-                    if (res.data.status) {
-                        var coupon = res.data.coupon;
-                        // Vì mã giảm giá chỉ hoạt động với đơn hàng đã mua > tổi thiếu
-                        if(this.tong_tien >= coupon.don_hang_toi_thieu) {
-                            if(coupon.loai_giam_gia == 1) {
-                                // giảm trực tiếp trên tiền. Nếu như so_giam_gia = 10K thì sẽ giảm luôn 10K
-                                this.tien_giam = coupon.so_giam_gia;
-                            } else {
-                                this.tien_giam = Math.min(coupon.so_giam_gia * this.tong_tien / 100, coupon.so_tien_toi_da);
-                            }
-                            var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + 'Đơn hàng đã cập nhật giảm giá' + '<span>';
-                            this.$toast.success(thong_bao);
-                        } else {
-                            var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + 'Đơn hàng chưa đủ điều kiện' + '<span>';
-                            this.$toast.warning(thong_bao);
-                            this.tien_giam = 0;
-                        }
-                    } else {
-                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
-                        this.$toast.error(thong_bao);
-                        this.tien_giam = 0;
-                    }
-                });
+
         },
         layDataGioHang() {
             axios
