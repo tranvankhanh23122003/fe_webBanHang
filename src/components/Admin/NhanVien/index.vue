@@ -83,8 +83,9 @@
                         <div class="mb-2">
                             <label>Quyền</label>
                             <select v-model="create_nhan_vien.id_quyen" class="form-control mt-2">
-                                <option value="0">Admin</option>
-                                <option value="1">Nhân Viên</option>
+                                <template v-for="(v,k) in listPhanQuyen" :key="k">
+                                    <option v-bind:value="v.id">{{ v.ten_quyen }}</option>
+                                </template>
                             </select>
                         </div>
                         <div class="mb-2">
@@ -153,8 +154,9 @@
                         <div class="mb-2">
                             <label>Quyền</label>
                             <select v-model="edit_nhan_vien.id_quyen" class="form-control mt-2">
-                                <option value="0">Admin</option>
-                                <option value="1">Nhân Viên</option>
+                                <template v-for="(v,k) in listPhanQuyen" :key="k">
+                                    <option v-bind:value="v.id">{{ v.ten_quyen }}</option>
+                                </template>
                             </select>
                         </div>
                         <div class="mb-2">
@@ -187,12 +189,28 @@ export default {
             del_nhan_vien: {},
             is_them_moi: 0,
             edit_nhan_vien: {},
+            listPhanQuyen: []
         }
     },
     mounted() {
         this.layDataNhanVien();
+        this.layDuLieuPhanQuyen();
     },
     methods: {
+        layDuLieuPhanQuyen() {
+            axios
+                .get('http://127.0.0.1:8000/api/admin/phan-quyen/data', {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem("token_nhan_vien")
+                    }
+                })
+                .then((res) => {
+                    if (res.data.status == false) {
+                        this.$toast.error(res.data.message)
+                    }
+                    this.listPhanQuyen = res.data.data;
+                });
+        },
         checkMail() {
             axios
                 .post("http://127.0.0.1:8000/api/admin/nhan-vien/check-mail", this.create_nhan_vien, {

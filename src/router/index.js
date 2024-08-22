@@ -69,6 +69,11 @@ const routes = [
         beforeEnter: kiemTraAdmin,
     },
     {
+        path : '/admin/phan-quyen',
+        component: ()=>import('../components/Admin/PhanQuyen/index.vue'),
+        beforeEnter: kiemTraAdmin,
+    },
+    {
         path : '/admin/dang-nhap',
         component: ()=>import('../components/Admin/DangNhap/index.vue'),
         meta: {layout: 'blank'}
