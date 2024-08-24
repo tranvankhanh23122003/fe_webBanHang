@@ -10,14 +10,14 @@
                 <div class="mobile-toggle-menu"><i class='bx bx-menu'></i></div>
                 <div class="search-bar flex-grow-1">
                     <div class="position-relative search-bar-box input-group w-100">
-                        <input type="text"
+                        <input v-on:keyup.enter="timKiem()" v-model="noi_dung_tim" type="text"
                             class="form-control search-control border border-1 border-secondary radius-30"
                             placeholder="Search..."> <span
                             class="position-absolute top-50 search-show translate-middle-y"><i
                                 class='bx bx-search'></i></span>
                         <span class="position-absolute top-50 search-close translate-middle-y"><i
                                 class='bx bx-x'></i></span>
-                        <button class="btn btn-outline-secondary radius-30" type="button" id="button-addon2">Tìm
+                        <button v-on:click="timKiem()" class="btn btn-outline-secondary radius-30" type="button" id="button-addon2">Tìm
                             Kiếm</button>
                     </div>
                 </div>
@@ -88,6 +88,7 @@ import axios from 'axios';
 export default {
     data() {
         return {
+            noi_dung_tim : '',
             auth: false,
             name_kh: '',
         }
@@ -97,6 +98,14 @@ export default {
         this.name_kh = localStorage.getItem('ten_kh')
     },
     methods: {
+        timKiem(){
+            this.$router.push({
+                name : 'name_tim_kiem',
+                params : {
+                    thong_tin : this.noi_dung_tim,
+                }
+            });
+        },
         checkLogin() {
             axios
                 .get('http://127.0.0.1:8000/api/kiem-tra-khachhang', {

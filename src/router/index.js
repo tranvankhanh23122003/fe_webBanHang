@@ -144,6 +144,13 @@ const routes = [
         beforeEnter: kiemTraKhachHang,
     },
     {
+        path : '/tim-kiem/:thong_tin',
+        component: ()=>import('../components/TrangChu/TimKiem/index.vue'),
+        meta: {layout: 'client'},
+        name : 'name_tim_kiem',
+        props: true
+    },
+    {
         path : '/chi-tiet-san-pham/:id_san_pham-:slug_san_pham',
         component: ()=>import('../components/TrangChu/ChiTietSanPham/index.vue'),
         meta: {layout: 'client'},
