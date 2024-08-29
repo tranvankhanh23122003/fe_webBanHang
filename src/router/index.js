@@ -74,7 +74,7 @@ const routes = [
         beforeEnter: kiemTraAdmin,
     },
     {
-        path: '/admin/123-45-546-45645-645645-6546-54',
+        path: '/admin/phan-quyen',
         component: () => import('../components/Admin/PhanQuyen/index.vue'),
         beforeEnter: kiemTraAdmin,
     },
