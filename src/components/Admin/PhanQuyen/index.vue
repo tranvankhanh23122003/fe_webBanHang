@@ -61,7 +61,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(v, k) in listPhanQuyen" :key="k" class="align-middle">
+                                <tr v-for="(v, k) in list_phan_quyen" :key="k" class="align-middle">
                                     <th class="text-center">{{ k + 1 }}</th>
                                     <td>{{ v.ten_quyen }}</td>
                                     <td class="text-center">
@@ -164,7 +164,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="(v, k) in listChucNang" :key="k" class="align-middle">
+                                    <tr v-for="(v, k) in list_chuc_nang" :key="k" class="align-middle">
                                         <th class="text-center">{{ k + 1 }}</th>
                                         <td class="text-wrap">{{ v.ten_chuc_nang }}</td>
                                         <td class="text-center">
@@ -218,8 +218,8 @@ import axios from 'axios';
 export default {
     data() {
         return {
-            listChucNang: [],
-            listPhanQuyen: [],
+            list_chuc_nang: [],
+            list_phan_quyen: [],
             create_quyen: {},
             delete_quyen: {},
             update_quyen: {},
@@ -300,7 +300,7 @@ export default {
                     if (res.data.status == false) {
                         this.$toast.error(res.data.message)
                     }
-                    this.listChucNang = res.data.data;
+                    this.list_chuc_nang = res.data.data;
                 });
         },
         layDuLieuPhanQuyen() {
@@ -314,7 +314,7 @@ export default {
                     if (res.data.status == false) {
                         this.$toast.error(res.data.message)
                     }
-                    this.listPhanQuyen = res.data.data;
+                    this.list_phan_quyen = res.data.data;
                 });
         },
         themMoiPhanQuyen() {
