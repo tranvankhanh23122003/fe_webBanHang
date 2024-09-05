@@ -44,8 +44,8 @@ const routes = [
         beforeEnter: kiemTraAdmin,
     },
     {
-        path: '/admin/thong-ke-1',
-        component: () => import('../components/Admin/ThongKe/thong_ke_1.vue'),
+        path: '/admin/thong-ke',
+        component: () => import('../components/Admin/ThongKe/index.vue'),
         beforeEnter: kiemTraAdmin,
     },
     {

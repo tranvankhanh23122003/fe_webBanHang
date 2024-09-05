@@ -73,6 +73,15 @@
 						</a>
 					</router-link>
 				</li>
+				<li class="nav-item">
+					<router-link to="/admin/thong-ke">
+						<a class="nav-link" href="/admin/thong-ke">
+							<div class="parent-icon"><i class="fa-solid fa-chart-bar"></i>
+							</div>
+							<div class="menu-title">Thông Kê</div>
+						</a>
+					</router-link>
+				</li>
 			</ul>
 		</nav>
 	</div>
