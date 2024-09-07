@@ -4,11 +4,11 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row align-items-center">
-                        <div class="col-lg-3 col-xl-2">
+                        <div class="col-lg-3 col-xl-3">
                             <h4>Danh Sách Sản Phẩm</h4>
                         </div>
-                        <div class="col-lg-9 col-xl-10">
-                            <form class="float-lg-end">
+                        <div class="col-lg-9 col-xl-9">
+                            <div class="float-lg-end">
                                 <div class="row row-cols-lg-2 row-cols-xl-auto g-2">
                                     <div class="col">
                                         <div class="position-relative">
@@ -21,14 +21,14 @@
                                     <div class="col">
                                         <div class="btn-group" role="group"
                                             aria-label="Button group with nested dropdown">
-                                            <button type="button" class="btn btn-white">Sort By</button>
+                                            <button type="button" class="btn btn-white">Sắp Xếp</button>
                                             <div class="btn-group" role="group">
                                                 <button id="btnGroupDrop1" type="button"
                                                     class="btn btn-white dropdown-toggle dropdown-toggle-nocaret px-1"
                                                     data-bs-toggle="dropdown" aria-expanded="false">
                                                     <i class='bx bx-chevron-down'></i>
                                                 </button>
-                                                <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                                <ul class="dropdown-menu dropdown-menu-xxl-end" aria-labelledby="btnGroupDrop1">
                                                     <li><a class="dropdown-item" href="#">A - Z</a>
                                                     </li>
                                                     <li><a class="dropdown-item" href="#">Z - A</a>
@@ -37,8 +37,47 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col">
+                                        <div class="btn-group" role="group">
+                                            <button type="button" class="btn btn-white">Khoảng Giá</button>
+                                            <div class="btn-group" role="group">
+                                                <button id="btnGroupDrop1" type="button"
+                                                    class="btn btn-white dropdown-toggle dropdown-toggle-nocaret px-1"
+                                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="bx bx-slider"></i>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-xxl-end " style="width: 400px;"
+                                                    aria-labelledby="btnGroupDrop1">
+                                                    <li>
+                                                        <div class="dropdown-header">
+                                                            <div class="row">
+                                                                <div class="col-lg-12">
+                                                                    <div class="row">
+                                                                        <div class="col-4">
+                                                                            <input class="form-control"
+                                                                                placeholder="0 đ" type="text"></div>
+                                                                        <div class="col-2" style="padding: 0px 0px">
+                                                                            <hr>
+                                                                        </div>
+                                                                        <div class="col-6"><input class="form-control"
+                                                                                placeholder="540.000 đ" type="text">
+                                                                        </div>
+                                                                    </div>
+                                                                    <input type="range" class="form-range"
+                                                                        id="customRange1">
+                                                                </div>
+                                                                <div class="col-lg-12">
+                                                                    <button class="btn btn-primary w-100">Áp Dụng</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -53,9 +92,11 @@
                         style="    width: 100%; height: 230px; object-fit: contain; vertical-align: middle;" alt="...">
                     <div class="">
                         <div v-if="value.is_flash_sale == 1" class="position-absolute top-0 end-0 m-3 product-discount">
-                            <span class="badge bg-warning mt-2">Sale</span></div>
+                            <span class="badge bg-warning mt-2">Sale</span>
+                        </div>
                         <div v-if="value.is_noi_bat == 1" class="position-absolute top-0 end-0 m-3 product-discount">
-                            <span class="badge bg-danger mt-2">Nổi Bật</span></div>
+                            <span class="badge bg-danger mt-2">Nổi Bật</span>
+                        </div>
                     </div>
                     <div class="card-body d-flex flex-column">
                         <h6 class="card-title cursor-pointer">
@@ -100,6 +141,11 @@ export default {
             id_danh_muc: this.$route.params.id_danh_muc,
             list_san_pham: [],
         }
+    },
+    beforeRouteUpdate(to, from, next) {
+        this.id_danh_muc = to.params.id_danh_muc;
+        this.layThongTinSanPhamTuDanhMuc();
+        next();
     },
     mounted() {
         this.layThongTinSanPhamTuDanhMuc();

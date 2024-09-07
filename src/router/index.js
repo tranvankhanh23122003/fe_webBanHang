@@ -84,6 +84,11 @@ const routes = [
         beforeEnter: kiemTraAdmin,
     },
     {
+        path: '/admin/don-hang',
+        component: () => import('../components/Admin/DonHang/index.vue'),
+        beforeEnter: kiemTraAdmin,
+    },
+    {
         path: '/admin/dang-nhap',
         component: () => import('../components/Admin/DangNhap/index.vue'),
         meta: { layout: 'blank' }
@@ -125,6 +130,12 @@ const routes = [
         component: () => import('../components/DaiLy/Profile/index.vue'),
         meta: { layout: 'daily' },
         beforeEnter: kiemTraDaiLy,
+    },
+    {
+        path: '/dai-ly/in-hoa-don',
+        component: () => import('../components/DaiLy/HoaDon/index.vue'),
+        meta: { layout: 'blank' },
+        beforeEnter: kiemTraDaiLy
     },
     {
         path: '/dai-ly/don-hang',
@@ -193,6 +204,12 @@ const routes = [
         path: '/khach-hang/don-hang',
         component: () => import('../components/KhachHang/DonHang/index.vue'),
         meta: { layout: 'client' },
+        beforeEnter: kiemTraKhachHang
+    },
+    {
+        path: '/khach-hang/in-hoa-don',
+        component: () => import('../components/KhachHang/HoaDon/index.vue'),
+        meta: { layout: 'blank' },
         beforeEnter: kiemTraKhachHang
     },
 ]

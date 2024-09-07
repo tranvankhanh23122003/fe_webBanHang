@@ -13,12 +13,12 @@
                         </div>
                         <div class="col-lg-12">
                             <div class="input-group mt-3 w-100">
-                                <input type="text"
-                                    class="form-control search-control border border-3 border-secondary"
+                                <input v-on:keyup.enter="timKiem()" v-model="tim_kiem.noi_dung_tim" type="text"
+                                    class="form-control search-control border border-2 border-secondary"
                                     placeholder="Search...">
                                 <span class="position-absolute top-50 search-show translate-middle-y"
                                     style="left: 15px;"><i class="bx bx-search"></i></span>
-                                <button class="btn btn-outline-secondary" type="button"
+                                <button v-on:click="timKiem()" class="btn btn-outline-secondary" type="button"
                                     id="button-addon2">Tìm Kiếm</button>
                             </div>
                         </div>
@@ -65,7 +65,8 @@
                                     <th class="text-center">{{ k + 1 }}</th>
                                     <td>{{ v.ten_quyen }}</td>
                                     <td class="text-center">
-                                        <button v-on:click="quyen_dang_chon = v" class="btn btn-info text-white">Phân
+                                        <button v-on:click="quyen_dang_chon = v; loadData()"
+                                            class="btn btn-info text-white">Phân
                                             Quyền</button>
                                     </td>
                                     <td class="text-center">
@@ -195,14 +196,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <template v-for="(v, k) in locMang()" :key="k">
-                                            <tr class="align-middle">
-                                                <td class="text-wrap">{{ v.ten_chuc_nang }}</td>
-                                                <td>{{ v.ten_quyen }}</td>
-                                                <td class="text-center">
-                                                    <button v-on:click="xoaQuyen(v)" class="btn btn-danger">Xóa</button>
-                                                </td>
-                                            </tr>
+                                    <template v-for="(v, k) in list_chi_tiet" :key="k">
+                                        <tr class="align-middle">
+                                            <td class="text-wrap">{{ v.ten_chuc_nang }}</td>
+                                            <td>{{ v.ten_quyen }}</td>
+                                            <td class="text-center">
+                                                <button v-on:click="xoaQuyen(v)" class="btn btn-danger">Xóa</button>
+                                            </td>
+                                        </tr>
                                     </template>
                                 </tbody>
                             </table>
@@ -225,6 +226,7 @@ export default {
             update_quyen: {},
             quyen_dang_chon: {},
             list_chi_tiet: [],
+            tim_kiem: {}
         }
     },
     mounted() {
@@ -233,6 +235,20 @@ export default {
         this.loadData();
     },
     methods: {
+        timKiem() {
+         axios
+         .post("http://127.0.0.1:8000/api/admin/phan-quyen/tim-kiem", this.tim_kiem, {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem("token_nhan_vien")
+                    }
+                })
+                .then((res) => {
+                    if (res.data.status == false) {
+                        toaster.error(res.data.message)
+                    }
+                    this.list_phan_quyen = res.data.data;
+                });
+        },
         xoaQuyen(payload) {
             axios
                 .post("http://127.0.0.1:8000/api/admin/chi-tiet-phan-quyen/xoa-quyen", payload, {
@@ -241,21 +257,21 @@ export default {
                     }
                 })
                 .then((res) => {
-                    if(res.data.status) {
+                    if (res.data.status) {
                         this.$toast.success(res.data.message);
                         this.loadData();
                     } else {
                         this.$toast.error(res.data.message)
                     }
-                    
+
                 });
         },
-        locMang() {
-            return this.list_chi_tiet.filter(value => value.id_quyen == this.quyen_dang_chon.id);
-        },
         loadData() {
+            var payload = {
+                'id_quyen': this.quyen_dang_chon.id,
+            };
             axios
-                .post("http://127.0.0.1:8000/api/admin/chi-tiet-phan-quyen/danh-sach", {}, {
+                .post("http://127.0.0.1:8000/api/admin/chi-tiet-phan-quyen/danh-sach", payload, {
                     headers: {
                         Authorization: 'Bearer ' + localStorage.getItem("token_nhan_vien")
                     }
@@ -280,13 +296,13 @@ export default {
                     }
                 })
                 .then((res) => {
-                    if(res.data.status) {
+                    if (res.data.status) {
                         this.$toast.success(res.data.message);
                         this.loadData();
                     } else {
                         this.$toast.error(res.data.message)
                     }
-                   
+
                 });
         },
         layDuLieuChucNang() {

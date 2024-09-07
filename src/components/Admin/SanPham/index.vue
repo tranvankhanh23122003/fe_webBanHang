@@ -56,6 +56,10 @@
                            <label>Mô tả chỉ tiết</label>
                            <textarea v-model="create_san_pham.mo_ta_chi_tiet" class="form-control mt-2" cols="30" rows="5"></textarea>
                         </div>
+                        <div class="mb-2">
+                           <label>Tag</label>
+                           <input v-model="create_san_pham.tag" type="text" class="form-control mt-2">
+                        </div>
                      </div>
                   </div>
                </div>
@@ -125,6 +129,10 @@
                            <label>Mô tả chỉ tiết</label>
                            <textarea v-model="edit_san_pham.mo_ta_chi_tiet" class="form-control mt-2" cols="30" rows="5"></textarea>
                         </div>
+                        <div class="mb-2">
+                           <label>Tag</label>
+                           <input v-model="edit_san_pham.tag" type="text" class="form-control mt-2">
+                        </div>
                      </div>
                   </div>
                </div>
@@ -181,9 +189,9 @@
                      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#themSP">Thêm mới sản phẩm</button>
                   </div>
                   <div class="input-group mt-3 w-100">
-                     <input type="text" class="form-control search-control border border-2 border-secondary" placeholder="Search..."> 
+                     <input v-on:keyup.enter="timKiem()" v-model="tim_kiem.noi_dung_tim" type="text" class="form-control search-control border border-2 border-secondary" placeholder="Search..."> 
                      <span class="position-absolute top-50 search-show translate-middle-y" style="left: 15px;"><i class="bx bx-search"></i></span>
-                     <button class="btn btn-outline-secondary" type="button" id="button-addon2">Tìm Kiếm</button>
+                     <button v-on:click="timKiem()" class="btn btn-outline-secondary" type="button" id="button-addon2">Tìm Kiếm</button>
                   </div>
                </div>
                <div class="card-body table-responsive">
@@ -200,6 +208,7 @@
                            <th class="text-center">Mô Tả Ngắn</th>
                            <th class="text-center">Mô Tả Chi Tiết</th>
                            <th class="text-center">Sao Đánh Giá</th>
+                           <th class="text-center">Tag</th>
                            <th class="text-center">Tình Trạng</th>
                            <th class="text-center">Action</th>
                         </tr>
@@ -222,6 +231,7 @@
                                     data-bs-target="#moTaChiTiet"></i>
                               </td>
                               <td class="align-middle text-center">{{ value.sao_danh_gia }}</td>
+                              <td class="align-middle ">{{ value.tag }}</td>
                               <td class="align-middle text-wrap">
                                  <button v-on:click="chuyenBan(value)" v-if="value.tinh_trang == 1" class="btn btn-success text-nowrap mb-2">Đang Bán</button>
                                  <button v-on:click="chuyenBan(value)" v-else class="btn btn-danger text-nowrap mb-2">Dừng Bán</button>
@@ -264,6 +274,7 @@ export default {
             "tinh_trang": "",
             "gia_ban": "",
             "gia_khuyen_mai": "",
+            "tag": "",
          },
          del_san_pham: {
             "ten_san_pham": "măt hàng"
@@ -278,15 +289,31 @@ export default {
             "tinh_trang": "",
             "gia_ban": "",
             "gia_khuyen_mai": "",
+            "tag": "",
          },
          mo_ta_chi_tiet_sp: '',
          is_them_moi: 0,
+         tim_kiem: {},
       }
    },
    mounted() {
       this.layDataSanPham();
    },
    methods: {
+      timKiem() {
+         axios
+         .post("http://127.0.0.1:8000/api/admin/san-pham/tim-kiem", this.tim_kiem, {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem("token_nhan_vien")
+                    }
+                })
+                .then((res) => {
+                    if (res.data.status == false) {
+                        toaster.error(res.data.message)
+                    }
+                    this.list_san_pham = res.data.data;
+                });
+        },
       chuyenBan(payload) {
          axios
             .post("http://127.0.0.1:8000/api/admin/san-pham/chuyen-trang-thai-ban", payload, {

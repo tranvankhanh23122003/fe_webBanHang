@@ -30,6 +30,15 @@
 						</a>
 					</router-link>
 				</li>
+				<li class="nav-item">
+					<router-link to="/dai-ly/don-hang">
+						<a class="nav-link" href="/dai-ly/don-hang">
+							<div class="parent-icon"><i class="fa-solid fa-box-archive"></i>
+							</div>
+							<div class="menu-title">Đơn Hàng</div>
+						</a>
+					</router-link>
+				</li>
 			</ul>
 		</nav>
 	</div>

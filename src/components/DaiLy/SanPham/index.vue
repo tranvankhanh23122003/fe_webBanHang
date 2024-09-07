@@ -56,6 +56,10 @@
                          <label>Mô tả chỉ tiết</label>
                          <textarea v-model="create_san_pham.mo_ta_chi_tiet" class="form-control mt-2" cols="30" rows="5"></textarea>
                       </div>
+                      <div class="mb-2">
+                           <label>Tag</label>
+                           <input v-model="create_san_pham.tag" type="text" class="form-control mt-2">
+                        </div>
                    </div>
                 </div>
              </div>
@@ -124,6 +128,10 @@
                          <label>Mô tả chỉ tiết</label>
                          <textarea v-model="edit_san_pham.mo_ta_chi_tiet" class="form-control mt-2" cols="30" rows="5"></textarea>
                       </div>
+                      <div class="mb-2">
+                           <label>Tag</label>
+                           <input v-model="edit_san_pham.tag" type="text" class="form-control mt-2">
+                        </div>
                    </div>
                 </div>
              </div>
@@ -192,6 +200,7 @@
                          <th class="text-center">Mô Tả Ngắn</th>
                          <th class="text-center">Mô Tả Chi Tiết</th>
                          <th class="text-center">Sao Đánh Giá</th>
+                         <th class="text-center">Tag</th>
                          <th class="text-center">Tình Trạng</th>
                          <th class="text-center">Action</th>
                       </tr>
@@ -214,6 +223,7 @@
                                   data-bs-target="#moTaChiTiet"></i>
                             </td>
                             <td class="align-middle text-center">{{ value.sao_danh_gia }}</td>
+                            <td class="align-middle ">{{ value.tag }}</td>
                             <td class="align-middle text-wrap">
                                <button v-on:click="chuyenBan(value)" v-if="value.tinh_trang == 1" class="btn btn-success text-nowrap mb-2">Đang Bán</button>
                                <button v-on:click="chuyenBan(value)" v-else class="btn btn-danger text-nowrap mb-2">Dừng Bán</button>
@@ -250,6 +260,7 @@ export default {
           "tinh_trang": "",
           "gia_ban": "",
           "gia_khuyen_mai": "",
+          "tag": "",
        },
        del_san_pham: {
           "ten_san_pham": "măt hàng"
@@ -264,6 +275,7 @@ export default {
           "tinh_trang": "",
           "gia_ban": "",
           "gia_khuyen_mai": "",
+          "tag": "",
        },
        mo_ta_chi_tiet_sp: '',
     }

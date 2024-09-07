@@ -49,8 +49,15 @@
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li>
                                 <router-link to="/khach-hang/profile">
-                                    <a class="dropdown-item" href="javascript:;">
+                                    <a class="dropdown-item" href="/khach-hang/profile">
                                         <i class="bx bx-user"></i><span>Profile</span>
+                                    </a>
+                                </router-link>
+                            </li>
+                            <li>
+                                <router-link to="/khach-hang/don-hang">
+                                    <a class="dropdown-item" href="/khach-hang/don-hang">
+                                        <i class="fa-solid fa-box-archive"></i><span>Đơn Hàng</span>
                                     </a>
                                 </router-link>
                             </li>
@@ -116,10 +123,7 @@ export default {
                 .then((res) => {
                     if (res.data.status) {
                         this.auth = true
-                    } else {
-                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
-                        this.$toast.error(thong_bao);
-                    }
+                    } 
                 })
         },
     },
