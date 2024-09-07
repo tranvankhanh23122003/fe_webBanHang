@@ -12,7 +12,7 @@
                                 <div class="row row-cols-lg-2 row-cols-xl-auto g-2">
                                     <div class="col">
                                         <div class="position-relative">
-                                            <input type="text" class="form-control ps-5"
+                                            <input v-model="search_tag" type="text" class="form-control ps-5"
                                                 placeholder="Search Product..."> <span
                                                 class="position-absolute top-50 product-show translate-middle-y"><i
                                                     class="bx bx-search"></i></span>
@@ -29,9 +29,9 @@
                                                     <i class='bx bx-chevron-down'></i>
                                                 </button>
                                                 <ul class="dropdown-menu dropdown-menu-xxl-end" aria-labelledby="btnGroupDrop1">
-                                                    <li><a class="dropdown-item" href="#">A - Z</a>
+                                                    <li><a v-on:click="sort = 1" class="dropdown-item" href="#">A - Z</a>
                                                     </li>
-                                                    <li><a class="dropdown-item" href="#">Z - A</a>
+                                                    <li><a v-on:click="sort = 2" class="dropdown-item" href="#">Z - A</a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -54,20 +54,15 @@
                                                                 <div class="col-lg-12">
                                                                     <div class="row">
                                                                         <div class="col-4">
-                                                                            <input class="form-control"
+                                                                            <input v-model="begin" class="form-control"
                                                                                 placeholder="0 đ" type="text"></div>
                                                                         <div class="col-2" style="padding: 0px 0px">
                                                                             <hr>
                                                                         </div>
-                                                                        <div class="col-6"><input class="form-control"
+                                                                        <div class="col-6"><input v-model="end" class="form-control"
                                                                                 placeholder="540.000 đ" type="text">
                                                                         </div>
                                                                     </div>
-                                                                    <input type="range" class="form-range"
-                                                                        id="customRange1">
-                                                                </div>
-                                                                <div class="col-lg-12">
-                                                                    <button class="btn btn-primary w-100">Áp Dụng</button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -85,7 +80,7 @@
         </div>
     </div>
     <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-6 product-grid">
-        <template v-for="(value, index) in list_san_pham" :key="index">
+        <template v-for="(value, index) in sxandgido" :key="index">
             <div class="col-2 d-flex">
                 <div class="card flex-fill">
                     <img v-bind:src="value.hinh_anh" class="card-img-top "
@@ -104,6 +99,7 @@
                                 <a v-bind:href="`/chi-tiet-san-pham/` + value.id + `-` + value.slug_san_pham">
                                     {{ value.ten_san_pham }}
                                 </a>
+                                <p class="mt-3">{{ value.tag }}</p>
                             </router-link>
                         </h6>
                         <div class="mt-auto">
@@ -140,6 +136,10 @@ export default {
         return {
             id_danh_muc: this.$route.params.id_danh_muc,
             list_san_pham: [],
+            sort : 1, // Quy ước là 1 sx giá tăng dần, 2 sẽ là giảm dần
+            search_tag : '',
+            begin : 0,
+            end : 10000,
         }
     },
     beforeRouteUpdate(to, from, next) {
@@ -165,6 +165,23 @@ export default {
                 })
         },
     },
+    computed: {
+        sxandgido() {
+            return this.list_san_pham
+                       .sort((a, b) => {
+                          if(this.sort == 1) {
+                            return a.gia_khuyen_mai - b.gia_khuyen_mai;
+                          } else {
+                            return b.gia_khuyen_mai - a.gia_khuyen_mai;
+                          }
+                       })
+                       .filter((value, index) => {
+                           return (this.search_tag === '' || value.tag.toLowerCase().includes(this.search_tag.toLowerCase()))
+                                && value.gia_khuyen_mai >= this.begin && value.gia_khuyen_mai <= this.end;
+                       });
+
+        }
+    }
 }
 </script>
 <style></style>
