@@ -2,7 +2,7 @@
     <div class="row">
         <div class="card">
             <div class="card-header">
-                <h4>Lịch Sử Đơn Hàng</h4>
+                <h4>Đơn Hàng</h4>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -19,7 +19,6 @@
                                 <th>Tổng Tiền Thanh Toán</th>
                                 <th>Thanh Toán</th>
                                 <th>Tình Trạng Đơn Hàng</th>
-                                <th>In Bill</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -37,9 +36,6 @@
                                 </td>
                                 <td class="text-center">
                                     <button class="btn btn-success w-100">Đã Đặt Hàng</button>
-                                </td>
-                                <td class="text-center">
-                                    <a href="/khach-hang/in-hoa-don" target="_blank" ><button class="btn btn-secondary"><i class="fa-solid fa-file-invoice-dollar"></i></button></a>
                                 </td>
                             </tr>
                         </tbody>

@@ -11,32 +11,76 @@
                             <tr class="text-center">
                                 <th>#</th>
                                 <th>Mã Đơn Hàng</th>
+                                <th>Tên Sản Phẩm</th>
                                 <th>Tên Khách Hàng</th>
+                                <th>Số Điện Thoại</th>
+                                <th>Địa Chỉ</th>
                                 <th>Tổng Tiền Thanh Toán</th>
                                 <th>Thanh Toán</th>
                                 <th>Tình Trạng Đơn Hàng</th>
-                                <th>Chi Tiết</th>
+                                <th>In Bill</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr class="align-middle">
                                 <th>1</th>
                                 <td class="text-center">HDBH2110</td>
+                                <td>Iphone 15 Promax</td>
                                 <td>Nguyễn Quốc Long</td>
+                                <td class="text-center">0123456789</td>
+                                <td>32 Xuân Diệu, Hải Châu, Đà Nẵng</td>
                                 <td class="text-end">100.000 đ</td>
                                 <td class="text-center">
-                                    <button class="btn btn-danger">Chưa Thanh Toán</button>
+                                    <button class="btn btn-danger w-100">Chưa Thanh Toán</button>
                                 </td>
                                 <td class="text-center">
-                                    <button class="btn btn-danger">Đã Hủy</button>
+                                    <button class="btn btn-danger w-100" data-bs-toggle="modal"
+                                        data-bs-target="#tinhTrangModal">Đã Hủy</button>
                                 </td>
                                 <td class="text-center">
-                                    <button class="btn btn-warning" data-bs-toggle="modal"
-                                        data-bs-target="#exampleModal"><i class="fa-solid fa-receipt"></i></button>
+                                    <a href="/dai-ly/in-hoa-don" target="_blank" ><button class="btn btn-secondary"><i class="fa-solid fa-file-invoice-dollar"></i></button></a>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
+                </div>
+                <div class="modal fade" id="tinhTrangModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Tình Trạng Đơn Hàng</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-check">
+									<input class="form-check-input" type="radio" name="flexRadioDefault" checked>
+									<label class="form-check-label" >Đã Đặt Hàng</label>
+								</div>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" name="flexRadioDefault">
+									<label class="form-check-label">Đang Xử Lý</label>
+								</div>
+                                <div class="form-check">
+									<input class="form-check-input" type="radio" name="flexRadioDefault">
+									<label class="form-check-label">Đang Vận Chuyển</label>
+								</div>
+                                <div class="form-check">
+									<input class="form-check-input" type="radio" name="flexRadioDefault">
+									<label class="form-check-label">Đã Giao Hàng</label>
+								</div>
+                                <div class="form-check">
+									<input class="form-check-input" type="radio" name="flexRadioDefault">
+									<label class="form-check-label">Đã Hủy</label>
+								</div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Cập Nhật</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                     aria-hidden="true">
