@@ -1,10 +1,10 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
-import Default from './Layout/Wrapper/index.vue'
-import Blank from './Layout/Wrapper/index_blank.vue'
-import Client from './Layout/Wrapper/index_client.vue'
-import DaiLy from './Layout/Wrapper/index_daily.vue'
+import Default from './layout/wrapper/index.vue'
+import Blank from './layout/wrapper/index_blank.vue'
+import Client from './layout/wrapper/index_client.vue'
+import DaiLy from './layout/wrapper/index_daily.vue'
 import Toaster from "@meforma/vue-toaster"
 const app = createApp(App)
 

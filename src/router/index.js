@@ -209,6 +209,7 @@ const routes = [
     {
         path: '/khach-hang/in-hoa-don',
         component: () => import('../components/KhachHang/HoaDon/index.vue'),
+        name: 'InHoaDon',
         meta: { layout: 'blank' },
         beforeEnter: kiemTraKhachHang
     },

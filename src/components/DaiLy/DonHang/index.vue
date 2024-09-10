@@ -22,23 +22,34 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="align-middle">
-                                <th>1</th>
-                                <td class="text-center">HDBH2110</td>
-                                <td>Iphone 15 Promax</td>
-                                <td>Nguyễn Quốc Long</td>
-                                <td class="text-center">0123456789</td>
-                                <td>32 Xuân Diệu, Hải Châu, Đà Nẵng</td>
-                                <td class="text-end">100.000 đ</td>
+                            <tr v-for="(v, k) in list" :key="k" class="align-middle">
+                                <th>{{ k + 1 }}</th>
+                                <td class="text-center">{{ v.ma_don_hang }}</td>
+                                <td>{{ v.ten_san_pham }}</td>
+                                <td>{{ v.ten_nguoi_nhan }}</td>
+                                <td class="text-center">{{ v.so_dien_thoai }}</td>
+                                <td>{{ v.dia_chi }}</td>
+                                <td class="text-end">{{ v.thanh_tien }}</td>
                                 <td class="text-center">
-                                    <button class="btn btn-danger w-100">Chưa Thanh Toán</button>
+                                    <button v-if="v.is_thanh_toan == 1" class="btn btn-success w-100">Đã Thanh
+                                        Toán</button>
+                                    <button v-else class="btn btn-danger w-100">Chưa Thanh Toán</button>
                                 </td>
                                 <td class="text-center">
-                                    <button class="btn btn-danger w-100" data-bs-toggle="modal"
-                                        data-bs-target="#tinhTrangModal">Đã Hủy</button>
+                                    <button @click="Object.assign(hoa_don = v)" v-if="v.tinh_trang == 0" class="btn btn-success w-100"
+                                        data-bs-toggle="modal" data-bs-target="#tinhTrangModal">Đã Đặt Hàng</button>
+                                    <button @click="Object.assign(hoa_don = v)" v-else-if="v.tinh_trang == 1" class="btn btn-warning w-100"
+                                        data-bs-toggle="modal" data-bs-target="#tinhTrangModal">Đang Xử
+                                        Lý</button>
+                                    <button @click="Object.assign(hoa_don = v)" v-else-if="v.tinh_trang == 2" class="btn btn-info w-100"
+                                        data-bs-toggle="modal" data-bs-target="#tinhTrangModal">Đang Vận
+                                        Chuyển</button>
+                                    <button v-else-if="v.tinh_trang == 3" class="btn btn-primary w-100">Đã Giao</button>
+                                    <button v-else class="btn btn-danger w-100">Đã Hủy</button>
                                 </td>
                                 <td class="text-center">
-                                    <a href="/dai-ly/in-hoa-don" target="_blank" ><button class="btn btn-secondary"><i class="fa-solid fa-file-invoice-dollar"></i></button></a>
+                                    <button @click="openHoaDon(v)" class="btn btn-secondary"><i
+                                            class="fa-solid fa-file-invoice-dollar"></i></button>
                                 </td>
                             </tr>
                         </tbody>
@@ -55,84 +66,29 @@
                             </div>
                             <div class="modal-body">
                                 <div class="form-check">
-									<input class="form-check-input" type="radio" name="flexRadioDefault" checked>
-									<label class="form-check-label" >Đã Đặt Hàng</label>
-								</div>
-								<div class="form-check">
-									<input class="form-check-input" type="radio" name="flexRadioDefault">
-									<label class="form-check-label">Đang Xử Lý</label>
-								</div>
+                                    <input v-model="hoa_don.tinh_trang" value="0" class="form-check-input" type="radio" name="flexRadioDefault" checked>
+                                    <label class="form-check-label">Đã Đặt Hàng</label>
+                                </div>
                                 <div class="form-check">
-									<input class="form-check-input" type="radio" name="flexRadioDefault">
-									<label class="form-check-label">Đang Vận Chuyển</label>
-								</div>
+                                    <input v-model="hoa_don.tinh_trang" value="1" class="form-check-input" type="radio" name="flexRadioDefault">
+                                    <label class="form-check-label">Đang Xử Lý</label>
+                                </div>
                                 <div class="form-check">
-									<input class="form-check-input" type="radio" name="flexRadioDefault">
-									<label class="form-check-label">Đã Giao Hàng</label>
-								</div>
+                                    <input v-model="hoa_don.tinh_trang" value="2" class="form-check-input" type="radio" name="flexRadioDefault">
+                                    <label class="form-check-label">Đang Vận Chuyển</label>
+                                </div>
                                 <div class="form-check">
-									<input class="form-check-input" type="radio" name="flexRadioDefault">
-									<label class="form-check-label">Đã Hủy</label>
-								</div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Cập Nhật</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog modal-xl">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="exampleModalLabel">Chi Tiết Đơn Hàng
-                                    HDBH2110</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="table-responsive">
-                                    <table class="table mb-0">
-                                        <thead class="table-light">
-                                            <tr>
-                                                <th class="text-center text-nowrap">#</th>
-                                                <th class="text-center text-nowrap">Hình Ảnh</th>
-                                                <th class="text-nowrap">Sản Phẩm</th>
-                                                <th class="text-center text-nowrap">Đơn Giá</th>
-                                                <th class="text-center text-nowrap">Số Lượng</th>
-                                                <th class="text-center text-nowrap">Thành Tiền</th>
-                                                <th class="text-center text-nowrap">Ghi Chú</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td class="align-middle">
-                                                    <h6 class="font-14">1</h6>
-                                                </td>
-                                                <td class="text-wrap text-center align-middle">
-                                                    <img src="https://img.lazcdn.com/g/p/e2dfff15ecfce0c7636d4ceee9c89961.jpg_400x400q80.jpg_.webp"
-                                                        style="width: 50px; height: auto;" alt="">
-                                                </td>
-                                                <td class="text-wrap align-middle">12 TWS Earphonei Cute 6 Color
-                                                    Wireless
-                                                    Bluetooth Earphones Inpods Headset HiFi Sports Earbuds Colorful
-                                                </td>
-                                                <td class="text-end align-middle">10.000</td>
-                                                <td class="align-middle text-center">1</td>
-                                                <td class="text-end align-middle">10.000
-                                                </td>
-                                                <td class="text-center align-middle">
-                                                    Nhớt giặt trước khi giao
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                    <input v-model="hoa_don.tinh_trang" value="3" class="form-check-input" type="radio" name="flexRadioDefault">
+                                    <label class="form-check-label">Đã Giao Hàng</label>
+                                </div>
+                                <div class="form-check">
+                                    <input v-model="hoa_don.tinh_trang" value="4" class="form-check-input" type="radio" name="flexRadioDefault">
+                                    <label class="form-check-label">Đã Hủy</label>
                                 </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button @click="changeStatus()" type="button" class="btn btn-primary" data-bs-dismiss="modal">Cập Nhật</button>
                             </div>
                         </div>
                     </div>
@@ -142,8 +98,56 @@
     </div>
 </template>
 <script>
-export default {
+import axios from 'axios';
 
+export default {
+    data() {
+        return {
+            list: [],
+            hoa_don : {}
+        }
+    },
+    mounted() {
+        this.layData();
+    },
+    methods: {
+        layData() {
+            axios
+                .get("http://127.0.0.1:8000/api/dai-ly/lich-su-don-hang", {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem("token_dai_ly")
+                    }
+                })
+                .then((res) => {
+                    this.list = res.data.data;
+                })
+        },
+
+        changeStatus() {
+            axios
+                .post("http://127.0.0.1:8000/api/dai-ly/lich-su-don-hang/change-status", this.hoa_don, {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem("token_dai_ly")
+                    }
+                })
+                .then((res) => {
+                    if (res.data.status) {
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.success(thong_bao);
+                        this.layData()
+                    } else {
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.error(thong_bao);
+                    }
+                })
+        },
+
+        openHoaDon(v) {
+            const query = new URLSearchParams(v).toString();
+            const url = `/dai-ly/in-hoa-don?${query}`;
+            window.open(url, '_blank');
+        },
+    },
 }
 </script>
 <style></style>

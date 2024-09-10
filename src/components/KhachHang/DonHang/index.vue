@@ -23,23 +23,32 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="align-middle">
-                                <th>1</th>
-                                <td class="text-center">HDBH2110</td>
-                                <td>Iphone 15 ProMax</td>
-                                <td>DZFullStack</td>
-                                <td>Nguyễn Quốc Long</td>
-                                <td class="text-center">0123456789</td>
-                                <td>32 Xuân Diệu, Hải Châu, Đà Nẵng</td>
-                                <td class="text-end">100.000 đ</td>
+                            <tr v-for="(v, k) in list" :key="k" class="align-middle">
+                                <th>{{ k + 1 }}</th>
+                                <td class="text-center">{{ v.ma_don_hang }}</td>
+                                <td>{{ v.ten_san_pham }}</td>
+                                <td>{{ v.ten_doanh_nghiep }}</td>
+                                <td>{{ v.ten_nguoi_nhan }}</td>
+                                <td class="text-center">{{ v.so_dien_thoai }}</td>
+                                <td>{{ v.dia_chi }}</td>
+                                <td class="text-end">{{ v.thanh_tien }}</td>
                                 <td class="text-center">
-                                    <button class="btn btn-success w-100">Đã Thanh Toán</button>
+                                    <button v-if="v.is_thanh_toan == 1" class="btn btn-success w-100">Đã Thanh
+                                        Toán</button>
+                                    <button v-else class="btn btn-danger w-100">Chưa Thanh Toán</button>
                                 </td>
                                 <td class="text-center">
-                                    <button class="btn btn-success w-100">Đã Đặt Hàng</button>
+                                    <button v-if="v.tinh_trang == 0" class="btn btn-success w-100">Đã Đặt Hàng</button>
+                                    <button v-else-if="v.tinh_trang == 1" class="btn btn-warning w-100">Đang Xử
+                                        Lý</button>
+                                    <button v-else-if="v.tinh_trang == 2" class="btn btn-info w-100">Đang Vận
+                                        Chuyển</button>
+                                    <button v-else-if="v.tinh_trang == 3" class="btn btn-primary w-100">Đã Giao</button>
+                                    <button v-else class="btn btn-danger w-100">Đã Hủy</button>
                                 </td>
                                 <td class="text-center">
-                                    <a href="/khach-hang/in-hoa-don" target="_blank" ><button class="btn btn-secondary"><i class="fa-solid fa-file-invoice-dollar"></i></button></a>
+                                    <button @click="openHoaDon(v)" class="btn btn-secondary"><i
+                                            class="fa-solid fa-file-invoice-dollar"></i></button>
                                 </td>
                             </tr>
                         </tbody>
@@ -50,8 +59,36 @@
     </div>
 </template>
 <script>
-export default {
+import axios from 'axios';
 
+export default {
+    data() {
+        return {
+            list: [],
+        }
+    },
+    mounted() {
+        this.layData();
+    },
+    methods: {
+        layData() {
+            axios
+                .get("http://127.0.0.1:8000/api/khach-hang/lich-su-don-hang", {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem("token_khach_hang")
+                    }
+                })
+                .then((res) => {
+                    this.list = res.data.data;
+                })
+        },
+
+        openHoaDon(v) {
+            const query = new URLSearchParams(v).toString();
+            const url = `/khach-hang/in-hoa-don?${query}`;
+            window.open(url, '_blank');
+        },
+    },
 }
 </script>
 <style></style>

@@ -30,7 +30,7 @@
                                     <td class="align-middle">{{ value.email }}</td>
                                     <td class="align-middle">{{ value.so_dien_thoai }}</td>
                                     <td class="align-middle text-center">{{ value.dia_chi }}</td>
-                                    <td class="align-middle">{{ value.id_quyen }}</td>
+                                    <td class="align-middle">{{ value.ten_quyen }}</td>
                                     <td class="align-middle text-center">
                                         <button v-on:click="changeTrangThai(value)" v-if="value.tinh_trang == 1" class="btn btn-success w-100">Hoạt
                                             Động</button>

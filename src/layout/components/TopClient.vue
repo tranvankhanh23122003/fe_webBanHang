@@ -17,7 +17,8 @@
                                 class='bx bx-search'></i></span>
                         <span class="position-absolute top-50 search-close translate-middle-y"><i
                                 class='bx bx-x'></i></span>
-                        <button v-on:click="timKiem()" class="btn btn-outline-secondary radius-30" type="button" id="button-addon2">Tìm
+                        <button v-on:click="timKiem()" class="btn btn-outline-secondary radius-30" type="button"
+                            id="button-addon2">Tìm
                             Kiếm</button>
                     </div>
                 </div>
@@ -64,11 +65,11 @@
                             <li>
                                 <div class="dropdown-divider mb-0"></div>
                             </li>
-                            <li><a class="dropdown-item"><i class='bx bx-log-out-circle'></i><span>Đăng
-                                        Xuất</span></a>
+                            <li><a v-on:click="dangXuat()" class="dropdown-item"><i
+                                        class='bx bx-log-out-circle'></i><span>Đăng Xuất</span></a>
                             </li>
-                            <li><a class="dropdown-item"><i class='bx bx-log-out-circle'></i><span>Đăng Xuất Tất
-                                        Cả</span></a>
+                            <li><a v-on:click="dangXuatAll()" class="dropdown-item"><i
+                                        class='bx bx-log-out-circle'></i><span>Đăng Xuất Tất Cả</span></a>
                             </li>
                         </ul>
                     </div>
@@ -95,7 +96,7 @@ import axios from 'axios';
 export default {
     data() {
         return {
-            noi_dung_tim : '',
+            noi_dung_tim: '',
             auth: false,
             name_kh: '',
         }
@@ -105,11 +106,11 @@ export default {
         this.name_kh = localStorage.getItem('ten_kh')
     },
     methods: {
-        timKiem(){
+        timKiem() {
             this.$router.push({
-                name : 'name_tim_kiem',
-                params : {
-                    thong_tin : this.noi_dung_tim,
+                name: 'name_tim_kiem',
+                params: {
+                    thong_tin: this.noi_dung_tim,
                 }
             });
         },
@@ -123,9 +124,23 @@ export default {
                 .then((res) => {
                     if (res.data.status) {
                         this.auth = true
-                    } 
+                    }
                 })
         },
+        dangXuat() {
+            axios
+                .post('http://127.0.0.1:8000/api/khach-hang/dang-xuat')
+                .then((res) => {
+
+                })
+        },
+        dangXuatAll() {
+            axios
+                .post('http://127.0.0.1:8000/api/khach-hang/dang-xuat-all')
+                .then((res) => {
+
+                })
+        }
     },
 }
 </script>
