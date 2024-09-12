@@ -41,8 +41,8 @@
                             <tr v-for="(value, index) in list_gio_hang" :key="index">
                                 <td class="align-middle text-center">
                                     <input v-model="value.dang_chon" @change="tinhTongTien()"
-                                        class="form-check-input me-3" :checked="checked" value="" type="checkbox"
-                                        aria-label="...">
+                                        v-on:click="doiDangChon(value)" class="form-check-input me-3"
+                                        :checked="value.dang_chon" type="checkbox" aria-label="...">
                                 </td>
                                 <td class="align-middle">
                                     <h6 class="mb-0 font-14">{{ index + 1 }}</h6>
@@ -175,6 +175,13 @@ export default {
             }
             this.tinhTongTien();
         },
+        doiDangChon(payload) {
+            this.list_gio_hang.forEach((value, key) => {
+                if (value.id == payload.id) {
+                    value.dang_chon = !value.dang_chon;
+                }
+            });
+        },
         muaHang() {
             var list = [];
             this.list_gio_hang.forEach((v, k) => {
@@ -217,10 +224,7 @@ export default {
         tinhTongTien() {
             var tong = 0;
             this.list_gio_hang.forEach((value, key) => {
-                if (value.id == this.$route.params.id_chi_tiet) {
-                    value.dang_chon = 1
-                }
-                if (value.dang_chon) {
+                if (value.dang_chon == 1) {
                     tong += value.thanh_tien;
                 }
             });
@@ -270,6 +274,12 @@ export default {
                     // this.list_gio_hang.forEach((value) => {
                     //     value.dang_chon = 0;
                     // });
+                    this.list_gio_hang.forEach((value, key) => {
+                        if (value.id == this.$route.params.id_chi_tiet) {
+                            value.dang_chon = 1;
+                        }
+                    });
+                    this.list_gio_hang = [...this.list_gio_hang];
                     this.tinhTongTien();
                 })
         },
