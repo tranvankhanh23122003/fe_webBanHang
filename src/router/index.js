@@ -198,6 +198,7 @@ const routes = [
         path: '/khach-hang/gio-hang',
         component: () => import('../components/KhachHang/GioHang/index.vue'),
         meta: { layout: 'client' },
+        name: 'gioHang',
         beforeEnter: kiemTraKhachHang
     },
     {

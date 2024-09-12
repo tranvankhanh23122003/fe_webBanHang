@@ -19,7 +19,7 @@
                             <hr>
                         </div>
                         <div class="form-body">
-                            <form class="row g-3">
+                            <div class="row g-3">
                                 <div class="col-sm-12">
                                     <label class="form-label">Họ Và Tên</label>
                                     <input type="email" v-model="khach_hang_create.ho_va_ten" class="form-control"
@@ -55,7 +55,7 @@
                                                 class="bx bx-user"></i>Đăng Kí</button>
                                     </div>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -83,9 +83,11 @@ export default {
                         var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
                         this.$toast.success(thong_bao);
                         this.khach_hang_create = {};
+                        this.$router.push('/khach-hang/dang-nhap');
                     } else {
                         var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
                         this.$toast.error(thong_bao);
+                        this.$router.push('/khach-hang/dang-nhap');
                     }
                 })
                 .catch((errors) => {

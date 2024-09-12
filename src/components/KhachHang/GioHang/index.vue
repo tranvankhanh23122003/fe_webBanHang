@@ -14,8 +14,9 @@
                     </div>
                     <div class="col-6">
                         <div class="text-end">
-                            <input class="form-check-input me-3" type="checkbox" value="" aria-label="..."><b>Chọn Tất
-                                Cả (3)</b>
+                            <input v-on:click="doiCheck()" v-model="checked" :checked="checked"
+                                class="form-check-input me-3" type="checkbox" value="" aria-label="..."><b>Chọn Tất
+                                Cả</b>
                         </div>
                     </div>
                 </div>
@@ -23,7 +24,8 @@
                     <table class="table mb-0">
                         <thead class="table-light">
                             <tr>
-                                <th></th>
+                                <th>
+                                </th>
                                 <th class="text-center text-nowrap">#</th>
                                 <th class="text-center text-nowrap">Hình Ảnh</th>
                                 <th class="text-nowrap">Sản Phẩm</th>
@@ -39,14 +41,14 @@
                             <tr v-for="(value, index) in list_gio_hang" :key="index">
                                 <td class="align-middle text-center">
                                     <input v-model="value.dang_chon" @change="tinhTongTien()"
-                                        class="form-check-input me-3" value="" type="checkbox" aria-label="...">
+                                        class="form-check-input me-3" :checked="checked" value="" type="checkbox"
+                                        aria-label="...">
                                 </td>
                                 <td class="align-middle">
                                     <h6 class="mb-0 font-14">{{ index + 1 }}</h6>
                                 </td>
                                 <td class="text-wrap text-center align-middle">
-                                    <img v-bind:src="value.hinh_anh"
-                                        style="width: 50px; height: auto;" alt="">
+                                    <img v-bind:src="value.hinh_anh" style="width: 50px; height: auto;" alt="">
                                 </td>
                                 <td class="text-wrap align-middle">{{ value.ten_san_pham }}</td>
                                 <td class="align-middle">{{ value.ten_doanh_nghiep }}</td>
@@ -109,13 +111,28 @@
                             <p><i class="fa-solid fa-money-bill-trend-up fa-xl me-2"></i><b>Só Tiền Giảm:</b> {{
                                 formatVND(tien_giam) }}
                             </p>
-                            <p><i class="fa-solid fa-money-bill-transfer"></i><b>Tổng tiền thanh toán:</b> {{
+                            <p><i class="fa-solid fa-money-bill-transfer me-2"></i><b>Tổng tiền thanh toán:</b> {{
                                 formatVND(tong_tien
                                     - tien_giam) }}</p>
                         </div>
                     </div>
                     <div class="col-6 text-end text-nowrap d-flex align-items-end">
-                        <div class="ms-auto"><a v-on:click="muaHang()" class="btn btn-danger radius-30 mt-2 mt-lg-0"><i
+                        <div class="ms-auto">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="form-check mb-2">
+                                        <input v-model="phuong_thuc" value="0" class="form-check-input" type="radio"
+                                            name="flexRadioDefault">
+                                        <label class="form-check-label">Thanh Toán Online</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input v-model="phuong_thuc" value="1" class="form-check-input" type="radio"
+                                            name="flexRadioDefault">
+                                        <label class="form-check-label">Thanh Toán COD</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <a v-on:click="muaHang()" class="btn btn-danger radius-30 mt-2 mt-lg-0"><i
                                     class="fa-solid fa-cart-shopping"></i>Mua Hàng</a>
                         </div>
                     </div>
@@ -134,7 +151,9 @@ export default {
             tong_tien: 0,
             tien_giam: 0,
             id_dia_chi: null,
-            code: ''
+            code: '',
+            checked: 0,
+            phuong_thuc: '',
         }
     },
     mounted() {
@@ -142,10 +161,24 @@ export default {
         this.layDiaChi();
     },
     methods: {
+        doiCheck() {
+            if (this.checked) {
+                this.checked = 0
+                this.list_gio_hang.forEach((value) => {
+                    value.dang_chon = 0;
+                });
+            } else {
+                this.checked = 1
+                this.list_gio_hang.forEach((value) => {
+                    value.dang_chon = 1;
+                });
+            }
+            this.tinhTongTien();
+        },
         muaHang() {
             var list = [];
             this.list_gio_hang.forEach((v, k) => {
-                if (v.dang_chon == true) {
+                if (v.dang_chon == 1) {
                     list.push(v.id);
                 }
             });
@@ -158,6 +191,7 @@ export default {
                 'ds_mua_sp': this.list_gio_hang,
                 'id_dia_chi_khach_hang': this.id_dia_chi,
                 'list_san_pham_can_mua': list,
+                'phuong_thuc': this.phuong_thuc,
             };
             axios
                 .post("http://127.0.0.1:8000/api/khach-hang/don-hang/create", payload, {
@@ -182,9 +216,12 @@ export default {
         },
         tinhTongTien() {
             var tong = 0;
-            this.list_gio_hang.forEach((value, index) => {
-                if (value.dang_chon == true) {
-                    tong = tong + value.thanh_tien;
+            this.list_gio_hang.forEach((value, key) => {
+                if (value.id == this.$route.params.id_chi_tiet) {
+                    value.dang_chon = 1
+                }
+                if (value.dang_chon) {
+                    tong += value.thanh_tien;
                 }
             });
             this.tong_tien = tong;
@@ -230,6 +267,9 @@ export default {
                 })
                 .then((res) => {
                     this.list_gio_hang = res.data.data;
+                    // this.list_gio_hang.forEach((value) => {
+                    //     value.dang_chon = 0;
+                    // });
                     this.tinhTongTien();
                 })
         },

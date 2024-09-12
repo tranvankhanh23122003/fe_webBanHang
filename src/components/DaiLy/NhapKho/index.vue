@@ -83,7 +83,7 @@
                             <tr>
                                 <th colspan="4"></th>
                                 <th colspan="2">
-                                    <button class="btn btn-primary w-100">Nhập Kho</button>
+                                    <button @click="changeNhapKho()" class="btn btn-primary w-100">Nhập Kho</button>
                                 </th>
                             </tr>
                         </tfoot>
@@ -108,6 +108,24 @@ export default {
         this.loadDataNhapKho();
     },
     methods: {
+        changeNhapKho() {
+            axios
+                .post("http://127.0.0.1:8000/api/dai-ly/nhap-kho/change", {}, {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem("token_dai_ly")
+                    }
+                })
+                .then((res) => {
+                    if (res.data.status) {
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.success(thong_bao);
+                        this.loadDataNhapKho()
+                    } else {
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.error(thong_bao);
+                    }
+                })
+        },  
         layDataSanPham() {
             axios
                 .get("http://127.0.0.1:8000/api/dai-ly/san-pham/data", {

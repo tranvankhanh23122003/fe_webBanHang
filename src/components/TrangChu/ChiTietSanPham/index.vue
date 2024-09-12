@@ -19,14 +19,14 @@
                                     <i class="bx bxs-star text-warning"></i>
                                     <i class="bx bxs-star text-secondary"></i>
                                 </div>
-                                <div>182 reviews</div>
-                                <div class="text-success"><i class="bx bxs-cart-alt align-middle"></i> 134
+                                <div>{{ dem }} reviews</div>
+                                <div class="text-success"><i class="bx bxs-cart-alt align-middle"></i> {{ order }}
                                     orders</div>
                             </div>
                             <div class="mb-3">
                                 <p class="mb-0  fw-bold">
-                                    <span
-                                        class="me-2 text-decoration-line-through text-secondary">{{ san_pham.gia_ban }}</span>
+                                    <span class="me-2 text-decoration-line-through text-secondary">{{ san_pham.gia_ban
+                                        }}</span>
                                     <span>{{ san_pham.gia_khuyen_mai }}</span>
                                 </p>
                             </div>
@@ -39,11 +39,13 @@
                                 <div class="col">
                                     <label class="form-label">Số Lượng</label>
                                     <div class="input-group input-spinner">
-                                        <button v-on:click="tru()" class="btn btn-white" type="button" id="button-plus"> -
+                                        <button v-on:click="tru()" class="btn btn-white" type="button" id="button-plus">
+                                            -
                                         </button>
-                                        <input v-on:change="doi()" v-model="san_pham.so_luong_mua" type="number" class="form-control text-center"
-                                            style="width: 100px; max-width: 100px;">
-                                        <button v-on:click="cong()" class="btn btn-white" type="button" id="button-minus"> +
+                                        <input v-on:change="doi()" v-model="san_pham.so_luong_mua" type="number"
+                                            class="form-control text-center" style="width: 100px; max-width: 100px;">
+                                        <button v-on:click="cong()" class="btn btn-white" type="button"
+                                            id="button-minus"> +
                                         </button>
                                     </div>
                                 </div>
@@ -58,8 +60,9 @@
                                 </div>
                             </div>
                             <div class="d-flex gap-3 mt-3">
-                                <a href="#" class="btn btn-primary">Mua ngay</a>
-                                <a v-on:click="themGioHang()" class="btn btn-outline-primary"><span class="text">Thêm vào giỏ
+                                <a v-on:click="muaNgay()" class="btn btn-primary">Mua ngay</a>
+                                <a v-on:click="themGioHang()" class="btn btn-outline-primary"><span class="text">Thêm
+                                        vào giỏ
                                         hàng</span> <i class="bx bxs-cart-alt"></i></a>
                             </div>
                         </div>
@@ -99,9 +102,10 @@
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="input-group mb-3">
-                                                <input type="text" class="form-control"
-                                                    placeholder="Điền đánh giá của bạn!"> <button
-                                                    class="btn btn-primary">Gửi</button>
+                                                <input v-model="danh_gia.noi_dung" v-on:keyup.enter="themDanhGia()"
+                                                    type="text" class="form-control"
+                                                    placeholder="Điền đánh giá của bạn!">
+                                                <button @click="themDanhGia()" class="btn btn-primary">Gửi</button>
                                             </div>
                                         </div>
                                     </div>
@@ -111,42 +115,16 @@
                                     <div class="card">
                                         <div class="card-body">
                                             <ul class="list-unstyled">
-                                                <li class="d-flex align-items-center border-bottom pb-2">
-                                                    <img src="../../../assets/images/avatars/avatar-8.png"
-                                                        class="rounded-circle p-1 border" width="90" height="90"
-                                                        alt="...">
-                                                    <div class="flex-grow-1 ms-3">
-                                                        <h5 class="mt-0 mb-1">List-based media object</h5>
-                                                        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus
-                                                        scelerisque ante sollicitudin. Cras purus odio, vestibulum in
-                                                        vulputate at, tempus viverra turpis. Fusce condimentum nunc ac
-                                                        nisi vulputate fringilla
-                                                    </div>
-                                                </li>
-                                                <li class="d-flex align-items-center my-4 border-bottom pb-2">
-                                                    <img src="../../../assets/images/avatars/avatar-9.png"
-                                                        class="rounded-circle p-1 border" width="90" height="90"
-                                                        alt="...">
-                                                    <div class="flex-grow-1 ms-3">
-                                                        <h5 class="mt-0 mb-1">List-based media object</h5>
-                                                        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus
-                                                        scelerisque ante sollicitudin. Cras purus odio, vestibulum in
-                                                        vulputate at, tempus viverra turpis. Fusce condimentum nunc ac
-                                                        nisi vulputate fringilla
-                                                    </div>
-                                                </li>
-                                                <li class="d-flex align-items-center">
-                                                    <img src="../../../assets/images/avatars/avatar-10.png"
-                                                        class="rounded-circle p-1 border" width="90" height="90"
-                                                        alt="...">
-                                                    <div class="flex-grow-1 ms-3">
-                                                        <h5 class="mt-0 mb-1">List-based media object</h5>
-                                                        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus
-                                                        scelerisque ante sollicitudin. Cras purus odio, vestibulum in
-                                                        vulputate at, tempus viverra turpis. Fusce condimentum nunc ac
-                                                        nisi vulputate fringilla
-                                                    </div>
-                                                </li>
+                                                <template v-for="(v, k) in list_danh_gia" :key="k">
+                                                    <li class="d-flex align-items-center border-bottom pb-2">
+                                                        <img v-bind:src="v.hinh_anh" class="rounded-circle p-1 border"
+                                                            width="90" height="90" alt="...">
+                                                        <div class="flex-grow-1 ms-3">
+                                                            <h5 class="mt-0 mb-1">{{ v.ho_va_ten }}</h5>
+                                                            {{ v.noi_dung }}
+                                                        </div>
+                                                    </li>
+                                                </template>
                                             </ul>
                                         </div>
                                     </div>
@@ -165,31 +143,70 @@ export default {
     props: ['id_san_pham', 'slug_san_pham'],
     data() {
         return {
-            id_san_pham : this.$route.params.id_san_pham,
-            san_pham    : {},
+            id_san_pham: this.$route.params.id_san_pham,
+            san_pham: {},
+            list_danh_gia: [],
+            danh_gia: {},
+            so_danh_gia : 0,
+            dem         : 0,
+            order       : 0,
         }
     },
     mounted() {
         this.layThongTinSanPham();
+        this.getDataCMT();
     },
     methods: {
+        themDanhGia() {
+            var payload = {
+                'noi_dung' : this.danh_gia.noi_dung,
+                'id_san_pham' : this.id_san_pham
+            }
+            axios
+                .post('http://127.0.0.1:8000/api/khach-hang/danh-gia/create', payload, {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem("token_khach_hang")
+                    }
+                })
+                .then((res) => {
+                    if (res.data.status) {
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.success(thong_bao);
+                        this.getDataCMT();
+                    } else {
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.error(thong_bao);
+                    }
+                })
+        },
+        getDataCMT() {
+            var payload = {
+                'id_san_pham': this.id_san_pham
+            }
+            axios
+                .post('http://127.0.0.1:8000/api/khach-hang/danh-gia/data', payload)
+                .then((res) => {
+                    this.list_danh_gia = res.data.data;
+                    this.dem = res.data.dem;
+                })
+        },
         doi() {
-            if(this.san_pham.so_luong_mua < 1) {
-                var message   = "Số lượng mua tối thiểu phải là 1 sản phẩm."
+            if (this.san_pham.so_luong_mua < 1) {
+                var message = "Số lượng mua tối thiểu phải là 1 sản phẩm."
                 var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + message + '<span>';
                 this.$toast.warning(thong_bao);
                 this.san_pham.so_luong_mua = 1;
-            } else if(this.san_pham.so_luong_mua > this.san_pham.so_luong) {
+            } else if (this.san_pham.so_luong_mua > this.san_pham.so_luong) {
                 this.san_pham.so_luong_mua = this.san_pham.so_luong;
-                var message   = "Số lượng mua tối đa chỉ được " + this.san_pham.so_luong + " sản phẩm."
+                var message = "Số lượng mua tối đa chỉ được " + this.san_pham.so_luong + " sản phẩm."
                 var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + message + '<span>';
                 this.$toast.warning(thong_bao);
             }
         },
         tru() {
             this.san_pham.so_luong_mua = this.san_pham.so_luong_mua * 1 - 1;
-            if(this.san_pham.so_luong_mua < 1) {
-                var message   = "Số lượng mua tối thiểu phải là 1 sản phẩm."
+            if (this.san_pham.so_luong_mua < 1) {
+                var message = "Số lượng mua tối thiểu phải là 1 sản phẩm."
                 var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + message + '<span>';
                 this.$toast.warning(thong_bao);
                 this.san_pham.so_luong_mua = 1;
@@ -197,9 +214,9 @@ export default {
         },
         cong() {
             this.san_pham.so_luong_mua = this.san_pham.so_luong_mua * 1 + 1;
-            if(this.san_pham.so_luong_mua > this.san_pham.so_luong) {
+            if (this.san_pham.so_luong_mua > this.san_pham.so_luong) {
                 this.san_pham.so_luong_mua = this.san_pham.so_luong;
-                var message   = "Số lượng mua tối đa chỉ được " + this.san_pham.so_luong + " sản phẩm."
+                var message = "Số lượng mua tối đa chỉ được " + this.san_pham.so_luong + " sản phẩm."
                 var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + message + '<span>';
                 this.$toast.warning(thong_bao);
             }
@@ -210,6 +227,7 @@ export default {
                 .then((res) => {
                     if (res.data.status) {
                         this.san_pham = res.data.data;
+                        this.order = res.data.order;
                         this.san_pham.so_luong_mua = 1;
                     } else {
                         var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
@@ -235,10 +253,28 @@ export default {
                         this.$router.push('/khach-hang/dang-nhap');
                     }
                 })
+        },
+
+        muaNgay() {
+            axios
+                .post("http://127.0.0.1:8000/api/khach-hang/gio-hang/create", this.san_pham, {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem("token_khach_hang")
+                    }
+                })
+                .then((res) => {
+                    if (res.data.status) {
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.success(thong_bao);
+                        this.$router.push({ name: 'gioHang', params: { id_chi_tiet: res.data.chi_tiet.id } });
+                    } else {
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.error(thong_bao);
+                        this.$router.push('/khach-hang/dang-nhap');
+                    }
+                })
         }
     },
 }
 </script>
-<style>
-    
-</style>
+<style></style>

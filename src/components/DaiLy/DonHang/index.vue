@@ -16,6 +16,7 @@
                                 <th>Số Điện Thoại</th>
                                 <th>Địa Chỉ</th>
                                 <th>Tổng Tiền Thanh Toán</th>
+                                <th>Phương Thức</th>
                                 <th>Thanh Toán</th>
                                 <th>Tình Trạng Đơn Hàng</th>
                                 <th>In Bill</th>
@@ -30,6 +31,10 @@
                                 <td class="text-center">{{ v.so_dien_thoai }}</td>
                                 <td>{{ v.dia_chi }}</td>
                                 <td class="text-end">{{ v.thanh_tien }}</td>
+                                <td class="text-center">
+                                    <button v-if="v.phuong_thuc == 0" class="btn btn-success w-100">Thanh Toán Online</button>
+                                    <button v-else class="btn btn-danger w-100">Thanh Toán COD</button>
+                                </td>
                                 <td class="text-center">
                                     <button v-if="v.is_thanh_toan == 1" class="btn btn-success w-100">Đã Thanh
                                         Toán</button>
@@ -138,6 +143,7 @@ export default {
                     } else {
                         var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
                         this.$toast.error(thong_bao);
+                        this.layData()
                     }
                 })
         },

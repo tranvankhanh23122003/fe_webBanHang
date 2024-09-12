@@ -99,6 +99,8 @@ export default {
                         var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message +'<span>';
                         this.$toast.success(thong_bao);
                         this.create_dai_ly = {};
+                        this.$router.push('/dai-ly/dang-nhap')
+
                     }
                 })
                 .catch((errors) => {

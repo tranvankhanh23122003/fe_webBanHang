@@ -66,10 +66,12 @@
                                 <div class="dropdown-divider mb-0"></div>
                             </li>
                             <li><a v-on:click="dangXuat()" class="dropdown-item"><i
-                                        class='bx bx-log-out-circle'></i><span>Đăng Xuất</span></a>
+                                        class='bx bx-log-out-circle'></i><span>Đăng
+                                        Xuất</span></a>
                             </li>
                             <li><a v-on:click="dangXuatAll()" class="dropdown-item"><i
-                                        class='bx bx-log-out-circle'></i><span>Đăng Xuất Tất Cả</span></a>
+                                        class='bx bx-log-out-circle'></i><span>Đăng Xuất Tất
+                                        Cả</span></a>
                             </li>
                         </ul>
                     </div>
@@ -106,6 +108,42 @@ export default {
         this.name_kh = localStorage.getItem('ten_kh')
     },
     methods: {
+        dangXuat() {
+            axios
+                .post('http://127.0.0.1:8000/api/khach-hang/dang-xuat', {}, {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem("token_khach_hang")
+                    }
+                })
+                .then((res) => {
+                    if (res.data.status) {
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.success(thong_bao);
+                        this.$router.push('/khach-hang/dang-nhap')
+                    } else {
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.error(thong_bao);
+                    }
+                })
+        },
+        dangXuatAll() {
+            axios
+                .get('http://127.0.0.1:8000/api/khach-hang/dang-xuat-tat-ca', {
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem("token_khach_hang")
+                    }
+                })
+                .then((res) => {
+                    if (res.data.status) {
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.success(thong_bao);
+                        this.$router.push('/khach-hang/dang-nhap')
+                    } else {
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.error(thong_bao);
+                    }
+                })
+        },
         timKiem() {
             this.$router.push({
                 name: 'name_tim_kiem',
@@ -127,20 +165,6 @@ export default {
                     }
                 })
         },
-        dangXuat() {
-            axios
-                .post('http://127.0.0.1:8000/api/khach-hang/dang-xuat')
-                .then((res) => {
-
-                })
-        },
-        dangXuatAll() {
-            axios
-                .post('http://127.0.0.1:8000/api/khach-hang/dang-xuat-all')
-                .then((res) => {
-
-                })
-        }
     },
 }
 </script>
