@@ -64,43 +64,43 @@
     </div>
 </template>
 <script>
-import axios from 'axios';
-export default {
-    data() {
-        return {
-            khach_hang_create: {}
-        }
-    },
-    mounted() {
-
-    },
-    methods: {
-        actionDangKy() {
-            axios
-                .post('http://127.0.0.1:8000/api/khach-hang/dang-ky', this.khach_hang_create)
-                .then((res) => {
-                    if (res.data.status) {
-                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
-                        this.$toast.success(thong_bao);
-                        this.khach_hang_create = {};
-                        this.$router.push('/khach-hang/dang-nhap');
-                    } else {
-                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
-                        this.$toast.error(thong_bao);
-                        this.$router.push('/khach-hang/dang-nhap');
-                    }
-                })
-                .catch((errors) => {
-                    const listErrors = errors.response.data.errors;
-                    Object.values(listErrors).forEach((value) => {
-                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + value + '<span>';
-                        this.$toast.error(thong_bao);
-                    })
-                });
+    import axios from 'axios';
+    export default {
+        data() {
+            return {
+                khach_hang_create: {}
+            }
         },
+        mounted() {
+
+        },
+        methods: {
+            actionDangKy() {
+                axios
+                    .post('http://127.0.0.1:8000/api/khach-hang/dang-ky', this.khach_hang_create)
+                    .then((res) => {
+                        if (res.data.status) {
+                            var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                            this.$toast.success(thong_bao);
+                            this.khach_hang_create = {};
+                            this.$router.push('/khach-hang/dang-nhap');
+                        } else {
+                            var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                            this.$toast.error(thong_bao);
+                            this.$router.push('/khach-hang/dang-nhap');
+                        }
+                    })
+                    .catch((errors) => {
+                        const listErrors = errors.response.data.errors;
+                        Object.values(listErrors).forEach((value) => {
+                            var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + value + '<span>';
+                            this.$toast.error(thong_bao);
+                        })
+                    });
+            },
 
 
-    },
-}
+        },
+    }
 </script>
 <style></style>
