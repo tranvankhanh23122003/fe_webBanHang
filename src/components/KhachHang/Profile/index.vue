@@ -42,7 +42,7 @@
                                     <div class="card flex-fill">
                                         <div class="card-body">
                                             <div class="d-flex flex-column align-items-center text-center">
-                                                <img src="https://rypuop.stripocdn.email/content/guids/CABINET_cffa413c5ccab048888fec6cc485b815f8f80028a73882101227ae6949ec8f11/images/387321979_687594463281792_7574468668499025541_n.jpg"
+                                                <img v-bind:src="profile.hinh_anh"
                                                     style="width: 140px; height: 140px;" alt="Admin"
                                                     class="rounded-circle p-1 bg-primary">
                                                 <div class="mt-3">
@@ -89,6 +89,25 @@
                                                 <div class="col-lg-3"></div>
                                                 <div class="col-lg-9 text-secondary">
                                                     <button v-on:click="updateProfile()" type="button"
+                                                        class="btn btn-primary px-4">Lưu</button>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-lg-3">
+                                                    <h6 class="mt-3">Ảnh Đại diện</h6>
+                                                </div>
+                                                <div class="col-lg-9 text-secondary mt-3">
+                                                    <input  type="file"
+                                                        class="form-control" accept="image/*" v-on:change="loadAnhTuLocal($event)">
+                                                </div>
+                                                <div class="col-lg-9 text-secondary mt-3" v-if="anh_tmp">
+                                                    <img style="width: 150px;height: 150px;" v-bind:src="anh_tmp" alt="" class="img-fluid">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-3"></div>
+                                                <div class="col-lg-9 text-secondary">
+                                                    <button v-on:click="updateAnhDaiDien()" type="button"
                                                         class="btn btn-primary px-4">Lưu</button>
                                                 </div>
                                             </div>
@@ -300,6 +319,8 @@ export default {
             create_dia_chi: {},
             update_dia_chi: {},
             delete_dia_chi: {},
+            file_anh: "",
+            anh_tmp:"",
         }
     },
     mounted() {
@@ -307,6 +328,39 @@ export default {
         this.getDataDiaChi()
     },
     methods: {
+        updateAnhDaiDien() {
+            const payload = new FormData();
+            payload.append("hinh_anh", this.file_anh);
+            axios
+                .post("http://127.0.0.1:8000/api/khach-hang/profile/anh-dai-dien",payload,{
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem("token_khach_hang"),
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
+                .then((res) => {
+                    if (res.data.status) {
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.success(thong_bao);
+                        this.getDataProfile()
+                    } else {
+                        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                        this.$toast.error(thong_bao);
+                    }
+                })
+        },
+        loadAnhTuLocal(event) {
+            this.file_anh = event.target.files[0];
+            this.createImage(this.file_anh)
+        },
+        createImage(file) {//show ảnh tậm
+            let reader = new FileReader();
+            let vm = this;
+            reader.onload = (e) => {
+                vm.anh_tmp = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        },
         getDataProfile() {
             axios
                 .get("http://127.0.0.1:8000/api/khach-hang/profile/data", {
@@ -317,6 +371,7 @@ export default {
                 .then((res) => {
                     this.profile = res.data.data;
                 })
+                
         },
         updateProfile() {
             axios

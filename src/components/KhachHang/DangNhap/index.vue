@@ -34,13 +34,13 @@
                                 </div>
                                 <div class="col-12">
                                     <label for="">reCAPTCHA</label>
-                                    <div class="g-recaptcha" data-sitekey="6LdDNT0qAAAAAESW36Ex55WQcuKBBT1MKZNdtbNR"
+                                    <div class="g-recaptcha" data-sitekey="6Lc9-z8qAAAAAEqwkazm6jK20nGHug1e6DRu6u4k"
                                         ref="recaptcha"></div>
                                 </div>
                                 <div class="col-12">
                                     <div class="d-grid">
-                                        <button type="button" v-on:click="actionDangNhap()" class="btn btn-primary"><i
-                                                class="bx bx-user"></i>Đăng Nhập</button>
+                                        <button type="button" v-on:click="actionDangNhap()" class="btn btn-primary">
+                                            <i class="bx bx-user"></i>Đăng Nhập</button>
                                     </div>
                                 </div>
                             </form>
@@ -60,42 +60,48 @@ export default {
         }
     },
     mounted() {
+        if (typeof grecaptcha !== 'undefined') {
+        grecaptcha.render(this.$refs.recaptcha, {
+            'sitekey': '6Lc9-z8qAAAAAEqwkazm6jK20nGHug1e6DRu6u4k'
+        });
+    } else {
+         console.log('reCAPTCHA chưa được tải');
+    }
 
     },
     methods: {
         actionDangNhap() {
             var code = grecaptcha.getResponse();
-            if (!code) {
-                var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + "Bạn chưa có mã captchar" + '<span>';
-                this.$toast.error(thong_bao);
-            } else {
-                this.khach_hang.code = code;
-                axios
-                    .post('http://127.0.0.1:8000/api/khach-hang/dang-nhap', this.khach_hang)
-                    .then((res) => {
-                        if (res.data.status) {
-                            var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
-                            this.$toast.success(thong_bao);
-                            this.khach_hang = {}
-                            // Lưu lại ở trình duyệt
-                            localStorage.setItem('token_khach_hang', res.data.token);
-                            localStorage.setItem('ten_kh', res.data.ten_kh);
-                            this.$router.push('/khach-hang/profile');
-                        } else {
-                            var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
-                            this.$toast.error(thong_bao);
-                        }
-                    })
-                    .catch((errors) => {
-                        const listErrors = errors.response.data.errors;
-                        Object.values(listErrors).forEach((value) => {
-                            var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + value + '<span>';
-                            this.$toast.error(thong_bao);
-                        })
-                    });
-            }
-
-        },
+    if (!code) {
+        var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + "Bạn chưa có mã captcha" + '<span>';
+        this.$toast.error(thong_bao);
+    } else {
+        this.khach_hang.code = code;
+        axios
+            .post('http://127.0.0.1:8000/api/khach-hang/dang-nhap', this.khach_hang)
+            .then((res) => {
+                if (res.data.status) {
+                    var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                    this.$toast.success(thong_bao);
+                    this.khach_hang = {}
+                    // Lưu lại ở trình duyệt
+                    localStorage.setItem('token_khach_hang', res.data.token);
+                    localStorage.setItem('ten_kh', res.data.ten_kh);
+                    this.$router.push('/khach-hang/profile');
+                } else {
+                    var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + res.data.message + '<span>';
+                    this.$toast.error(thong_bao);
+                }
+            })
+            .catch((errors) => {
+                const listErrors = errors.response.data.errors;
+                Object.values(listErrors).forEach((value) => {
+                    var thong_bao = '<b>Thông báo</b><span style="margin-top: 5px">' + value + '<span>';
+                    this.$toast.error(thong_bao);
+                })
+            });
+    }
+},
     },
 }
 </script>
