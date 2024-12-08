@@ -6,6 +6,8 @@ import Blank from './layout/wrapper/index_blank.vue'
 import Client from './layout/wrapper/index_client.vue'
 import DaiLy from './layout/wrapper/index_daily.vue'
 import Toaster from "@meforma/vue-toaster"
+import $ from 'jquery';  // Thêm dòng này
+
 const app = createApp(App)
 
 app.use(router)
